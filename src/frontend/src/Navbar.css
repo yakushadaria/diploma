@@ -1,0 +1,54 @@
+.navbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* 🔥 более контрастный тёплый цвет */
+  background: linear-gradient(90deg, #3b2f2a, #2a211e);
+
+  padding: 14px 0;
+
+  border-bottom: 1px solid #e8ddd2;
+
+  box-shadow: 0 6px 18px rgba(47, 42, 38, 0.25);
+}
+
+.links {
+  display: flex;
+  gap: 28px;
+}
+
+.link {
+  position: relative;
+
+  color: #fff7f0; /* светлый кремовый текст */
+  text-decoration: none;
+  font-size: 16px;
+
+  padding: 8px 12px;
+  border-radius: 10px;
+
+  transition: all 0.2s ease;
+}
+
+.link:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  transform: translateY(-2px);
+}
+
+.link::after {
+  content: "";
+  position: absolute;
+  left: 12%;
+  bottom: 4px;
+
+  width: 0%;
+  height: 2px;
+
+  background: #c47a55; /* твой основной акцент */
+  transition: width 0.3s ease;
+}
+
+.link:hover::after {
+  width: 76%;
+}

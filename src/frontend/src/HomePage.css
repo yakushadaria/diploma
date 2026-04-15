@@ -1,0 +1,21 @@
+.layout {
+  display: flex;
+  align-items: flex-start;
+}
+
+.home {
+  padding: 20px;
+  width: 100%;
+}
+
+.home h1 {
+  margin-bottom: 20px;
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  align-items: flex-start;
+}
