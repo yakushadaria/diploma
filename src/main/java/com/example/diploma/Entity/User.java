@@ -10,18 +10,26 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "users")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(name = "users",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = "username"),
+                @UniqueConstraint(columnNames = "email")
+        })
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, length = 15)
     private String username;
+
+    @Column(nullable = false, unique = true)
     private String email;
+
     private String password;
     private String role;
 
@@ -72,6 +80,17 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
 
     public String getRole() { return role; }
 

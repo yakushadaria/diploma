@@ -2,6 +2,7 @@ package com.example.diploma.Controller;
 
 import com.example.diploma.Entity.User;
 import com.example.diploma.Service.UserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,15 +15,40 @@ public class AuthController {
         this.userService = userService;
     }
 
+
+    // регистрация
     @PostMapping("/register")
-    public String register(@RequestBody User user) {
-        userService.register(user.getUsername(), user.getPassword());
-        return "OK";
+    public ResponseEntity<String> register(@RequestBody User user) {
+
+        String result = userService.register(
+                user.getUsername(),
+                user.getPassword(),
+                user.getEmail()
+        );
+
+        if (result.equals("OK")) {
+            return ResponseEntity.ok("Registered successfully");
+        } else {
+            return ResponseEntity.badRequest().body(result);
+        }
     }
 
+
+
+    // login -- вход
     @PostMapping("/login")
-    public String login() {
-        return "OK"; // поки без JWT
+    public ResponseEntity<String> login(@RequestBody User user) {
+
+        String result = userService.login(
+                user.getUsername(),
+                user.getPassword()
+        );
+
+        if (result.equals("OK")) {
+            return ResponseEntity.ok("Login success");
+        } else {
+            return ResponseEntity.badRequest().body(result);
+        }
     }
 
 }

@@ -7,8 +7,16 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
+   // регистрация
     Optional<User> findByUsername(String username);
 
-    Optional<User> findByEmail(String email);
+    boolean existsByUsername(String username);
 
+    boolean existsByEmail(String email);
+
+
+    // вход (почта + пароль || username + пароль)
+    Optional<User> findByUsernameOrEmail(String username, String email);
+
+    Optional<User> findByEmail(String email);
 }

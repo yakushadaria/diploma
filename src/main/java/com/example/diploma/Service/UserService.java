@@ -24,13 +24,61 @@ public class UserService {
     }
 
 
-    public void register(String username, String password) {
+
+    // регистрация +++
+    public String register(String username, String password, String email) {
+
+        // перевірка username
+        if (username.length() > 15) {
+            return "Username must be <= 15 characters";
+        }
+
+        if (userRepository.existsByUsername(username)) {
+            return "Username already exists";
+        }
+
+        // перевірка email
+        if (userRepository.existsByEmail(email)) {
+            return "Email already exists";
+        }
+
+        // перевірка email
+        if (!email.contains("@")) {
+            return "Invalid email";
+        }
+
+
+        // створення
         User user = new User();
         user.setUsername(username);
         user.setPassword(passwordEncoder.encode(password));
+        user.setEmail(email);
         user.setRole("STUDENT");
 
         userRepository.save(user);
+
+        return "OK";
+    }
+
+
+
+    // login -- вход
+    public String login(String login, String password) {
+
+        Optional<User> optionalUser =
+                userRepository.findByUsernameOrEmail(login, login);
+
+        if (optionalUser.isEmpty()) {
+            return "User not found";
+        }
+
+        User user = optionalUser.get();
+
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            return "Wrong password";
+        }
+
+        return "OK";
     }
 
 

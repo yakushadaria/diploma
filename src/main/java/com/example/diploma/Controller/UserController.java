@@ -22,26 +22,6 @@ public class UserController {
     }
 
 
-    @GetMapping("/register")
-    public String registerPage() {
-        return "register";
-    }
-
-
-    @PostMapping("/register")
-    public String register(@RequestBody User user) {
-
-        userService.register(user.getUsername(), user.getPassword());
-
-        return "OK";
-    }
-
-    @GetMapping("/login")
-    public String loginPage() {
-        return "login";
-    }
-
-
 
 
     @GetMapping("/admin/users")
@@ -67,10 +47,13 @@ public class UserController {
         return userService.getById(id).orElse(null);
     }
 
+    /*
     @PostMapping
     public User create(@RequestBody User user) {
         return userService.save(user);
     }
+    */
+
 
     @PutMapping("/{id}")
     public User update(@PathVariable Long id, @RequestBody User user) {
