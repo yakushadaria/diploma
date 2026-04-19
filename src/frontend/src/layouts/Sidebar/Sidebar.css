@@ -1,7 +1,7 @@
 .sidebar {
   width: 260px;
-  min-width: 260px;   /* 👈 важно */
-  max-width: 260px;   /* 👈 фиксируем */
+  min-width: 260px;
+  max-width: 260px;
 
   min-height: 100vh;
   padding: 24px;
