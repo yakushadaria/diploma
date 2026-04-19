@@ -1,5 +1,5 @@
-import Sidebar from "./Sidebar";
-import CourseCard from "./CourseCard";
+import Sidebar from "../../layouts/Sidebar/Sidebar";
+import CourseCard from "../../components/CourseCard";
 import "./HomePage.css"
 
 

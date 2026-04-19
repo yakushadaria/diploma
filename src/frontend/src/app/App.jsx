@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Navbar from "./Navbar";
-import HomePage from "./HomePage";
-import AuthPage from "./AuthPage";
+import Navbar from "../layouts/Navbar/Navbar";
+import HomePage from "../pages/Home/HomePage";
+import AuthPage from "../pages/Auth/AuthPage";
 
 function News() {
   return <h2>Новини</h2>;
