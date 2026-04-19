@@ -9,7 +9,7 @@ const mockUsers = {
 };
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(mockUsers.admin);
+  const [user, setUser] = useState(mockUsers.student);
 
   return (
     <AuthContext.Provider value={{ user, setUser, mockUsers }}>
