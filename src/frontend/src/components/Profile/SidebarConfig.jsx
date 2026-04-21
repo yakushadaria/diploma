@@ -1,5 +1,5 @@
 export const sidebarItems = {
-  student: [
+  STUDENT: [
     {
       title: "Профіль",
       items: [
@@ -24,7 +24,7 @@ export const sidebarItems = {
     },
   ],
 
-  admin: [
+  ADMIN: [
     {
       title: "Профіль",
       items: [
@@ -50,7 +50,7 @@ export const sidebarItems = {
     },
   ],
 
-  teacher: [
+  TEACHER: [
     {
       title: "Профіль",
       items: [

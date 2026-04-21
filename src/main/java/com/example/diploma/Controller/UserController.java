@@ -47,12 +47,7 @@ public class UserController {
         return userService.getById(id).orElse(null);
     }
 
-    /*
-    @PostMapping
-    public User create(@RequestBody User user) {
-        return userService.save(user);
-    }
-    */
+
 
 
     @PutMapping("/{id}")
