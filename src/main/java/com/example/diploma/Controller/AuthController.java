@@ -13,24 +13,12 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "http://localhost:5173")
 public class AuthController {
     private final UserService userService;
-
-
-   /* public AuthController(UserService userService ) {
-        this.userService = userService;
-    }*/
-
-
-
-
-
     private final UserRepository userRepository;
 
     public AuthController(UserService userService, UserRepository userRepository) {
         this.userService = userService;
         this.userRepository = userRepository;
     }
-
-
 
 
 
@@ -51,25 +39,6 @@ public class AuthController {
             return ResponseEntity.badRequest().body(result);
         }
     }
-
-
-/*
-    // login -- вход
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody User user) {
-
-        String result = userService.login(
-                user.getUsername(),
-                user.getPassword()
-        );
-
-        if (result.equals("OK")) {
-            return ResponseEntity.ok("Login success");
-        } else {
-            return ResponseEntity.badRequest().body(result);
-        }
-    }
- */
 
 
 

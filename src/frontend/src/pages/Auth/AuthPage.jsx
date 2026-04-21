@@ -59,55 +59,6 @@ function AuthPage() {
 
 
 
-/*
-  // LOGIN
-  const handleLogin = async (e) => {
-    e.preventDefault();
-
-    if (!login || !password) {
-      alert("Fill all fields");
-      return;
-    }
-
-    try {
-      const response = await fetch("http://localhost:8080/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: login,
-          password,
-        }),
-      });
-
-
-      const text = await response.text();
-
-      if (response.ok) {
-        alert("Login success ");
-        setLogin("");
-        setPassword("");
-        //window.location.href = "/";
-        window.location.href = "/profile";
-      } else {
-        alert(text || "Invalid credentials");
-      }
-    } catch (error) {
-      console.error(error);
-      alert("Connection error");
-    }
-
-  };
-*/
-
-
-
-
-
-
-
-
   const handleLogin = async (e) => {
     e.preventDefault();
     if (!login || !password) { alert("Fill all fields"); return; }
@@ -121,12 +72,7 @@ function AuthPage() {
       });
 
       if (response.ok) {
-        const user = await response.json();
-
-        if (user.role === "STUDENT") window.location.href = "/profile";
-        else if (user.role === "TEACHER") window.location.href = "/teacher";
-        else if (user.role === "ADMIN") window.location.href = "/admin";
-        else window.location.href = "/profile";
+        window.location.href = "/profile";
       } else {
         const text = await response.text();
         alert(text || "Invalid credentials");
@@ -136,17 +82,6 @@ function AuthPage() {
       alert("Connection error");
     }
   };
-
-
-
-
-
-
-
-
-
-
-
 
 
   return (

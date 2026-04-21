@@ -1,7 +1,6 @@
 import { useAuth } from "../../context/AuthContext";
 
 function ProfileContent({ activeTab }) {
-  //const { user } = useAuth();
   const { user, logout } = useAuth();
 
   const renderContent = () => {
@@ -96,15 +95,6 @@ function ProfileContent({ activeTab }) {
       case "add-course":
         return <h2>Додати курс</h2>;
 
-      /*case "logout":
-        return (
-          <>
-            <h2>Вихід</h2>
-            <div class="profile-card">
-                <button className="">Вийти</button>
-            </div>
-          </>
-        );*/
 
         case "logout":
             return (
