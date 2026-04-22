@@ -1,4 +1,6 @@
 import { useAuth } from "../../context/AuthContext";
+import EmailChange from "../Profile/EmailChange";
+import AvatarChange from "../Profile/AvatarChange";
 
 function ProfileContent({ activeTab }) {
   const { user, logout } = useAuth();
@@ -13,8 +15,9 @@ function ProfileContent({ activeTab }) {
 
             <div className="profile-card profile-view-card">
                 <img
-                src={user.avatar || "/default-avatar.jpg"}
-                className="profile-avatar"
+                    src={user.avatar ? `http://localhost:8080${user.avatar}` : "/default-avatar.jpg"}
+                    className="profile-avatar"
+                    alt="avatar"
                 />
 
                 <div className="profile-info">
@@ -36,27 +39,14 @@ function ProfileContent({ activeTab }) {
             </>
         );
 
-      case "avatar":
-        return (
-          <>
-            <h2>Змінити аватар</h2>
-            <div className="profile-card">
-              <input type="file" />
-              <button>Змінити</button>
-            </div>
-          </>
-        );
 
-      case "email":
-        return (
-          <>
-            <h2>Змінити пошту</h2>
-            <div className="profile-card">
-              <input defaultValue="test@mail.com" />
-              <button>Змінити</button>
-            </div>
-          </>
-        );
+        case "email":
+            return <EmailChange />;
+
+        case "avatar":
+            return <AvatarChange />;
+
+
 
       case "active":
         return <h2>Активні курси</h2>;

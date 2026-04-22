@@ -29,7 +29,15 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/login", "/api/register", "/api/me", "/api/logout").permitAll()
+                        .requestMatchers(
+                                "/api/login",
+                                "/api/register",
+                                "/api/me",
+                                "/api/logout",
+                                "/api/users/update-email",
+                                "/api/users/update-avatar",
+                                "/uploads/**"
+                        ).permitAll()
                         .anyRequest().authenticated()
                 );
         return http.build();

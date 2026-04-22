@@ -62,7 +62,7 @@ public class UserService {
 
 
 
-    // login -- вход
+    // login -- вход ++
     public String login(String login, String password) {
 
         Optional<User> optionalUser =
@@ -82,7 +82,7 @@ public class UserService {
     }
 
 
-
+    // для авторизации после входа логин (куки) +++
     public User findByUsername(String username) {
         return userRepository.findByUsername(username).orElse(null);
     }
@@ -92,7 +92,38 @@ public class UserService {
 
 
 
-    
+
+    // Оновлення пошти
+    public String updateEmail(String username, String newEmail) {
+        if (!newEmail.contains("@")) return "Invalid email";
+        if (userRepository.existsByEmail(newEmail)) return "Email already exists";
+
+        User user = userRepository.findByUsername(username).orElse(null);
+        if (user == null) return "User not found";
+
+        user.setEmail(newEmail);
+        userRepository.save(user);
+        return "OK";
+    }
+
+
+
+    // Оновлення аватара
+    public String updateAvatar(String username, String avatarUrl) {
+        User user = userRepository.findByUsername(username).orElse(null);
+        if (user == null) return "User not found";
+
+        user.setAvatar(avatarUrl);
+        userRepository.save(user);
+        return "OK";
+    }
+
+
+
+
+
+
+
 
     public User changeRole(Long userId, String role) {
 
@@ -126,14 +157,6 @@ public class UserService {
     public void delete(Long id) {
         userRepository.deleteById(id);
     }
-
-
-
-
-
-
-
-
 
 
 
