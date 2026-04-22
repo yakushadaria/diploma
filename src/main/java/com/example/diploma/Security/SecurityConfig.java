@@ -28,6 +28,7 @@ public class SecurityConfig {
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
+
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/api/login",
@@ -36,7 +37,12 @@ public class SecurityConfig {
                                 "/api/logout",
                                 "/api/users/update-email",
                                 "/api/users/update-avatar",
-                                "/uploads/**"
+                                "/uploads/**",
+                                "/api/users/all",
+                                "/api/users/update-role",
+
+                                "/api/users/delete/**",
+                                "/api/users/find/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 );

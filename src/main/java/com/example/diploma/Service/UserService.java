@@ -93,7 +93,7 @@ public class UserService {
 
 
 
-    // Оновлення пошти
+    // Оновлення пошти ++
     public String updateEmail(String username, String newEmail) {
         if (!newEmail.contains("@")) return "Invalid email";
         if (userRepository.existsByEmail(newEmail)) return "Email already exists";
@@ -108,7 +108,7 @@ public class UserService {
 
 
 
-    // Оновлення аватара
+    // Оновлення аватара ++
     public String updateAvatar(String username, String avatarUrl) {
         User user = userRepository.findByUsername(username).orElse(null);
         if (user == null) return "User not found";
@@ -120,31 +120,39 @@ public class UserService {
 
 
 
-
-
-
-
-
-    public User changeRole(Long userId, String role) {
-
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        user.setRoles(Set.of(Role.valueOf(role)));
-
-        return userRepository.save(user);
-    }
-
-
-    // Метод для получения всех пользователей
+    // Метод получения всех пользователей +++
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
 
-    public List<User> getAll() {
-        return userRepository.findAll();
+
+    // изменение роли (только АДМИН) +++
+    public String updateRole(String username, String role) {
+        User user = userRepository.findByUsername(username).orElse(null);
+        if (user == null) return "User not found";
+
+        if (!List.of("STUDENT", "TEACHER", "ADMIN").contains(role)) {
+            return "Invalid role";
+        }
+
+        user.setRole(role);
+        userRepository.save(user);
+        return "OK";
     }
+
+
+
+    // Удаление пользователя
+    public String deleteUser(String username) {
+        User user = userRepository.findByUsername(username).orElse(null);
+        if (user == null) return "User not found";
+        userRepository.deleteByUsername(username);
+        return "OK";
+    }
+
+
+
 
     public Optional<User> getById(Long id) {
         return userRepository.findById(id);
@@ -153,11 +161,6 @@ public class UserService {
     public User save(User user) {
         return userRepository.save(user);
     }
-
-    public void delete(Long id) {
-        userRepository.deleteById(id);
-    }
-
 
 
 

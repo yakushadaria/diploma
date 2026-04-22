@@ -20,7 +20,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
-@CrossOrigin(origins = "http://localhost:5173")
+//@CrossOrigin(origins = "http://localhost:5173")
 public class UserController {
 
     private final UserService userService;
@@ -30,7 +30,8 @@ public class UserController {
     }
 
 
-    // jyjdktyyz
+
+    // Оновлення пошти ++
     @PostMapping("/update-email")
     public ResponseEntity<String> updateEmail(
             @CookieValue(name = "user", required = false) String username,
@@ -45,7 +46,7 @@ public class UserController {
 
 
 
-    // Оновлення аватара
+    // Оновлення аватара ++
     @PostMapping("/update-avatar")
     public ResponseEntity<String> updateAvatar(
             @CookieValue(name = "user", required = false) String username,
@@ -79,30 +80,96 @@ public class UserController {
 
 
 
+    // получить всех пользователей ++
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllUsers(
+            @CookieValue(name = "user", required = false) String username
+    ) {
+        if (username == null) return ResponseEntity.status(401).body("Not logged in");
 
+        User currentUser = userService.findByUsername(username);
+        if (currentUser == null || !currentUser.getRole().equals("ADMIN")) {
+            return ResponseEntity.status(403).body("Access denied");
+        }
 
-
-
-
-
-
-    @GetMapping("/admin/users")
-    @PreAuthorize("hasRole('ADMIN')")
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
+        List<User> users = userService.getAllUsers();
+        users.forEach(u -> u.setPassword(null));
+        return ResponseEntity.ok(users);
     }
 
 
-    @PutMapping("/admin/change-role/{userId}")
-    public User changeRole(@PathVariable Long userId, @RequestParam String role) {
 
-        return userService.changeRole(userId, role);
+    // изменить роль ++
+    @PostMapping("/update-role")
+    public ResponseEntity<String> updateRole(
+            @CookieValue(name = "user", required = false) String username,
+            @RequestBody Map<String, String> body
+    ) {
+        if (username == null) return ResponseEntity.status(401).body("Not logged in");
+
+        User currentUser = userService.findByUsername(username);
+        if (currentUser == null || !currentUser.getRole().equals("ADMIN")) {
+            return ResponseEntity.status(403).body("Access denied");
+        }
+
+        String result = userService.updateRole(body.get("username"), body.get("role"));
+        if (result.equals("OK")) return ResponseEntity.ok("Role updated");
+        return ResponseEntity.badRequest().body(result);
     }
 
-    @GetMapping
-    public List<User> getAll() {
-        return userService.getAll();
+
+
+
+    // Удаление пользователя по username (только АДМИН)
+    @DeleteMapping("/delete/{username}")
+    public ResponseEntity<String> deleteUser(
+            @CookieValue(name = "user", required = false) String currentUsername,
+            @PathVariable String username
+    ) {
+        if (currentUsername == null) return ResponseEntity.status(401).body("Not logged in");
+
+        User currentUser = userService.findByUsername(currentUsername);
+        if (currentUser == null || !currentUser.getRole().equals("ADMIN")) {
+            return ResponseEntity.status(403).body("Access denied");
+        }
+
+        if (currentUsername.equals(username)) {
+            return ResponseEntity.badRequest().body("Не можна видалити себе");
+        }
+
+        String result = userService.deleteUser(username);
+        if (result.equals("OK")) return ResponseEntity.ok("User deleted");
+        return ResponseEntity.badRequest().body(result);
     }
+
+
+
+
+   // Для поиска пользователей (в пошуковій строке)
+    @GetMapping("/find/{username}")
+    public ResponseEntity<?> findUser(
+            @CookieValue(name = "user", required = false) String currentUsername,
+            @PathVariable String username
+    ) {
+        if (currentUsername == null) return ResponseEntity.status(401).body("Not logged in");
+
+        User currentUser = userService.findByUsername(currentUsername);
+        if (currentUser == null || !currentUser.getRole().equals("ADMIN")) {
+            return ResponseEntity.status(403).body("Access denied");
+        }
+
+        User user = userService.findByUsername(username);
+        if (user == null) return ResponseEntity.status(404).body("User not found");
+
+        user.setPassword(null);
+        return ResponseEntity.ok(user);
+    }
+
+
+
+
+
+
 
     @GetMapping("/{id}")
     public User getById(@PathVariable Long id) {
@@ -110,16 +177,4 @@ public class UserController {
     }
 
 
-
-
-    @PutMapping("/{id}")
-    public User update(@PathVariable Long id, @RequestBody User user) {
-        user.setId(id);
-        return userService.save(user);
-    }
-
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
-        userService.delete(id);
-    }
 }

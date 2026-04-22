@@ -16,7 +16,7 @@ function ProfilePage() {
     return (
         <div className="profile-page">
             <ProfileSidebar activeTab={activeTab} setActiveTab={setActiveTab} />
-            <ProfileContent activeTab={activeTab} />
+            <ProfileContent activeTab={activeTab} setActiveTab={setActiveTab} />
         </div>
     );
 }
@@ -24,3 +24,4 @@ function ProfilePage() {
 export default ProfilePage;
 
 
+// <ProfileContent activeTab={activeTab} />

@@ -1,8 +1,11 @@
 import { useAuth } from "../../context/AuthContext";
 import EmailChange from "../Profile/EmailChange";
 import AvatarChange from "../Profile/AvatarChange";
+import UsersList from "../Profile/UsersList";
+import RoleChange from "../Profile/RoleChange";
+import DeleteUser from "../Profile/DeleteUser";
 
-function ProfileContent({ activeTab }) {
+function ProfileContent({ activeTab, setActiveTab }) {
   const { user, logout } = useAuth();
 
   const renderContent = () => {
@@ -40,10 +43,10 @@ function ProfileContent({ activeTab }) {
         );
 
 
-        case "email":
+      case "email":
             return <EmailChange />;
 
-        case "avatar":
+      case "avatar":
             return <AvatarChange />;
 
 
@@ -57,17 +60,26 @@ function ProfileContent({ activeTab }) {
       case "progress":
         return <h2>Перегляд прогресу</h2>;
 
-      case "users":
-        return <h2>Перегляд користувачів</h2>;
+
+        case "users":
+            return <UsersList key={Date.now()} />;
 
       case "roles":
-        return <h2>Надати роль</h2>;
+            return <RoleChange />;
+
+
+
 
       case "delete-course":
         return <h2>Видалити курс</h2>;
 
-      case "delete-user":
-        return <h2>Видалити користувача</h2>;
+
+
+
+        case "delete-user":
+            return <DeleteUser setActiveTab={setActiveTab} />;
+
+
 
       case "description":
         return (
