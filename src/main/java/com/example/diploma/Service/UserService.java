@@ -153,16 +153,26 @@ public class UserService {
 
 
 
-
-    public Optional<User> getById(Long id) {
-        return userRepository.findById(id);
+    // Изменение описание (только УЧИТЕЛЬ)
+    public String updateDescription(String username, String description) {
+        User user = userRepository.findByUsername(username).orElse(null);
+        if (user == null) return "User not found";
+        user.setDescription(description);
+        userRepository.save(user);
+        return "OK";
     }
 
+
+
+
+
+
+
+    /*
     public User save(User user) {
         return userRepository.save(user);
     }
-
-
+*/
 
 
 }

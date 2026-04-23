@@ -35,6 +35,9 @@ public class User {
     private String role;
     private String avatar;
 
+    private String description;
+
+
     //
     @OneToMany(mappedBy = "user")
     private List<UserProgress> progresses;
@@ -106,5 +109,15 @@ public class User {
     public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
+
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 
 }

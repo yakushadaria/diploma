@@ -42,7 +42,8 @@ public class SecurityConfig {
                                 "/api/users/update-role",
 
                                 "/api/users/delete/**",
-                                "/api/users/find/**"
+                                "/api/users/find/**",
+                                "/api/users/update-description"
                         ).permitAll()
                         .anyRequest().authenticated()
                 );

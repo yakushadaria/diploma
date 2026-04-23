@@ -4,6 +4,8 @@ import AvatarChange from "../Profile/AvatarChange";
 import UsersList from "../Profile/UsersList";
 import RoleChange from "../Profile/RoleChange";
 import DeleteUser from "../Profile/DeleteUser";
+import DescriptionChange from "../Profile/DescriptionChange";
+
 
 function ProfileContent({ activeTab, setActiveTab }) {
   const { user, logout } = useAuth();
@@ -37,6 +39,11 @@ function ProfileContent({ activeTab, setActiveTab }) {
                     {user.role === "TEACHER" && "Викладач"}
                     {user.role === "STUDENT" && "Студент"}
                 </div>
+                    {user.role === "TEACHER" && user.description && (
+                        <div className="profile-description">
+                            {user.description}
+                        </div>
+                    )}
                 </div>
             </div>
             </>
@@ -81,16 +88,8 @@ function ProfileContent({ activeTab, setActiveTab }) {
 
 
 
-      case "description":
-        return (
-          <>
-            <h2>Змінити опис</h2>
-            <div className="profile-card">
-              <input defaultValue="Опис..." />
-              <button>Змінити</button>
-            </div>
-          </>
-        );
+        case "description":
+            return <DescriptionChange />;
 
 
 

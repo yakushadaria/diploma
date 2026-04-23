@@ -144,7 +144,6 @@ public class UserController {
 
 
 
-
    // Для поиска пользователей (в пошуковій строке)
     @GetMapping("/find/{username}")
     public ResponseEntity<?> findUser(
@@ -167,14 +166,27 @@ public class UserController {
 
 
 
+    // Изменение описания у учителя
+    @PostMapping("/update-description")
+    public ResponseEntity<String> updateDescription(
+            @CookieValue(name = "user", required = false) String username,
+            @RequestBody Map<String, String> body
+    ) {
+        if (username == null) return ResponseEntity.status(401).body("Not logged in");
 
-
-
-
-    @GetMapping("/{id}")
-    public User getById(@PathVariable Long id) {
-        return userService.getById(id).orElse(null);
+        String result = userService.updateDescription(username, body.get("description"));
+        if (result.equals("OK")) return ResponseEntity.ok("Description updated");
+        return ResponseEntity.badRequest().body(result);
     }
+
+
+
+
+
+
+
+
+
 
 
 }
