@@ -6,6 +6,7 @@ import com.example.diploma.Repository.CourseRepository;
 import com.example.diploma.Repository.LessonRepository;
 import com.example.diploma.Repository.UserRepository;
 
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,7 +33,7 @@ public class CourseService {
         User teacher = userRepository.findByUsername(username).orElse(null);
         if (teacher == null) return "User not found";
         if (!teacher.getRole().equals("TEACHER")) return "Access denied";
-        if (courseRepository.countByTeacher(teacher) >= 30) return "Max 30 courses allowed";
+        if (courseRepository.countByTeacher(teacher) >= 25) return "Max 25 courses allowed";
 
         Course course = new Course();
         course.setTitle(title);
@@ -90,17 +91,25 @@ public class CourseService {
 
 
 
+    // препод иожет удалить сам свой курс
+    @Transactional
+    public String deleteCourse(String username, Long courseId) {
+        User teacher = userRepository.findByUsername(username).orElse(null);
+        if (teacher == null) return "User not found";
 
+        Course course = courseRepository.findById(courseId).orElse(null);
+        if (course == null) return "Course not found";
 
-    public Optional<Course> getById(Long id) {
-        return courseRepository.findById(id);
+        if (course.getTeacher() == null || !course.getTeacher().getUsername().equals(username)) {
+            return "Access denied";
+        }
+
+        courseRepository.deleteEnrollmentsByCourseId(courseId);
+        courseRepository.deleteLessonsByCourseId(courseId);
+        courseRepository.deleteCourseById(courseId);
+        return "OK";
     }
 
-    public Course save(Course course) {
-        return courseRepository.save(course);
-    }
 
-    public void delete(Long id) {
-        courseRepository.deleteById(id);
-    }
+
 }

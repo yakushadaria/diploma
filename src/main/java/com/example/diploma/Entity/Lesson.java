@@ -30,9 +30,11 @@ public class Lesson {
     @JoinColumn(name = "course_id")
     private Course course;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "lesson")
     private List<Exercise> exercises;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "lesson")
     private List<Comment> comments;
 

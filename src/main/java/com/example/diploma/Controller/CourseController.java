@@ -16,7 +16,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/courses")
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:5173")
 public class CourseController {
 
 
@@ -136,6 +136,11 @@ public class CourseController {
         Course course = courseRepository.findById(id).orElse(null);
         if (course == null) return ResponseEntity.status(404).body("Course not found");
 
+        // ← проверка лимита для студента
+        if (enrollmentRepository.countByUser(user) >= 25) {
+            return ResponseEntity.badRequest().body("Max 25 courses allowed");
+        }
+
         if (enrollmentRepository.existsByUserAndCourse(user, course)) {
             return ResponseEntity.badRequest().body("Already enrolled");
         }
@@ -214,6 +219,20 @@ public class CourseController {
     ) {
         if (username == null) return ResponseEntity.status(401).body("Not logged in");
         return ResponseEntity.ok(courseService.getTeacherCourses(username));
+    }
+
+
+
+    // учитель может удалять свои курсі
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteCourse(
+            @PathVariable Long id,
+            @CookieValue(name = "user", required = false) String username
+    ) {
+        if (username == null) return ResponseEntity.status(401).body("Not logged in");
+        String result = courseService.deleteCourse(username, id);
+        if (result.equals("OK")) return ResponseEntity.ok("Course deleted");
+        return ResponseEntity.badRequest().body(result);
     }
 
 
