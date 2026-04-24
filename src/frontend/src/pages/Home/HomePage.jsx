@@ -1,3 +1,6 @@
+/*
+
+
 import Sidebar from "../../layouts/Sidebar/Sidebar";
 import CourseCard from "../../components/CourseCard";
 import "./HomePage.css"
@@ -13,6 +16,7 @@ function HomePage() {
 
         <div className="grid">
           <CourseCard
+            id={1}
             title="English for Beginners"
             language="English"
             level="Beginner"
@@ -20,6 +24,7 @@ function HomePage() {
           />
 
           <CourseCard
+            id={2}
             title="Ukrainian for Foreigners"
             language="Ukrainian"
             level="Beginner"
@@ -27,6 +32,7 @@ function HomePage() {
           />
 
           <CourseCard
+            id={3}
             title="Czech for Daily Life"
             language="Czech"
             level="Beginner"
@@ -34,6 +40,7 @@ function HomePage() {
           />
 
           <CourseCard
+            id={4}
             title="English Conversation Practice"
             language="English"
             level="Intermediate"
@@ -41,6 +48,7 @@ function HomePage() {
           />
 
           <CourseCard
+            id={5}
             title="Ukrainian Grammar Basics"
             language="Ukrainian"
             level="Intermediate"
@@ -48,6 +56,7 @@ function HomePage() {
           />
 
           <CourseCard
+            id={6}
             title="Czech Survival Course"
             language="Czech"
             level="Beginner"
@@ -57,6 +66,48 @@ function HomePage() {
 
       </div>
     </div>
+  );
+}
+
+export default HomePage; */
+
+
+
+
+import { useState, useEffect } from "react";
+import Sidebar from "../../layouts/Sidebar/Sidebar";
+import CourseCard from "../../components/CourseCard";
+import "./HomePage.css";
+
+function HomePage() {
+  const [courses, setCourses] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:8080/api/courses")
+        .then(res => res.ok ? res.json() : [])
+        .then(data => setCourses(data))
+        .catch(console.error);
+  }, []);
+
+  return (
+      <div className="layout">
+        <Sidebar />
+        <div style={{ padding: "10px" }}>
+          <h1 style={{ textAlign: "center" }}>Курси</h1>
+          <div className="grid">
+            {courses.length === 0 && <p>Курсів поки немає</p>}
+            {courses.map(course => (
+                <CourseCard
+                    key={course.id}
+                    id={course.id}
+                    title={course.title}
+                    language={course.language?.name || ""}
+                    description={course.description}
+                />
+            ))}
+          </div>
+        </div>
+      </div>
   );
 }
 

@@ -1,5 +1,6 @@
 package com.example.diploma.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -8,8 +9,6 @@ import java.util.List;
 
 @Entity
 @Data
-@Getter
-@Setter
 public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,10 +21,28 @@ public class Course {
     @JoinColumn(name = "language_id")
     private Language language;
 
-    @OneToMany(mappedBy = "course")
+    @OneToMany(mappedBy = "course", fetch = FetchType.EAGER)
+    @JsonIgnoreProperties("course")
     private List<Lesson> lessons;
+
+    @ManyToOne
+    @JoinColumn(name = "teacher_id")
+    private User teacher;
+
+    public User getTeacher() { return teacher; }
+    public void setTeacher(User teacher) { this.teacher = teacher; }
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
+
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+
+
+    public List<Lesson> getLessons() {
+        return lessons;
+    }
 
 }

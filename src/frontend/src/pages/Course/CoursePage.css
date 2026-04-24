@@ -1,0 +1,81 @@
+.course-page {
+    display: flex;
+    min-height: calc(100vh - 60px);
+}
+
+.course-sidebar {
+    width: 220px;
+    background: #b2ebf2;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.course-sidebar h3 {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.course-lesson-item {
+    background: #e0f7fa;
+    padding: 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.course-lesson-item:hover {
+    background: #80deea;
+}
+
+.course-content {
+    flex: 1;
+    padding: 30px;
+    background: linear-gradient(135deg, #e0f7fa, #b2ebf2);
+}
+
+.course-title {
+    font-size: 2rem;
+    font-style: italic;
+    margin-bottom: 10px;
+}
+
+.course-lang {
+    font-style: italic;
+    margin-bottom: 20px;
+}
+
+.course-buttons {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.btn-enroll {
+    background: #66bb6a;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.btn-unenroll {
+    background: #ef5350;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.course-topics ol {
+    margin-top: 10px;
+    padding-left: 20px;
+}
+
+.course-topics li {
+    margin-bottom: 15px;
+}

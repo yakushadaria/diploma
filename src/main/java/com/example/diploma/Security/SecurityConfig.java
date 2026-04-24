@@ -43,10 +43,28 @@ public class SecurityConfig {
 
                                 "/api/users/delete/**",
                                 "/api/users/find/**",
-                                "/api/users/update-description"
+                                "/api/users/update-description",
+
+
+                                "/api/courses",
+                                "/api/courses/**",
+                                "/api/courses/*/enroll",
+                                "/api/courses/*/enroll",
+
+                                "/api/courses/create",
+                                "/api/courses/my",
+                                "/api/courses/*/lessons",
+                                "/api/courses/lessons/**",
+                                "/api/courses/enrolled",
+                                "/api/courses/unenroll/**",
+                                "/api/courses/*/enrolled",
+
+                                "/api/courses/create",
+                                 "/api/courses/{id}/lessons"
                         ).permitAll()
                         .anyRequest().authenticated()
                 );
+
         return http.build();
     }
 

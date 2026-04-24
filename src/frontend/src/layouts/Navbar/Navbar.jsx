@@ -3,7 +3,8 @@ import { useAuth } from '../../context/AuthContext';
 import "./Navbar.css";
 
 function Navbar() {
-  const { user } = useAuth();
+  //const { user } = useAuth();
+  const { user, logout } = useAuth();
 
   return (
     <div className="navbar">
@@ -15,15 +16,15 @@ function Navbar() {
         <Link className="link" to="/about">О платформе</Link>
         )}
 
-        {user?.role === 'teacher' && (
-          <Link className="link" to="/courses">Мої курси</Link>
+        {user?.role === 'TEACHER' && (
+          <Link className="link" to="/my-courses">Мої курси</Link>
         )}
 
-        {user?.role === 'student' && (
+        {user?.role === 'STUDENT' && (
           <Link className="link" to="/my-learning">Моє навчання</Link>
         )}
 
-        {user?.role === 'admin' && (
+        {user?.role === 'ADMIN' && (
           <Link className="link" to="/admin">Користувачі</Link>
         )}
 
@@ -36,7 +37,9 @@ function Navbar() {
         )}
 
         {user && (
-          <Link className="link" to="/logout">Вихід</Link>
+            <span className="link" onClick={logout} style={{ cursor: "pointer" }}>
+            Вихід
+          </span>
         )}
       </div>
     </div>

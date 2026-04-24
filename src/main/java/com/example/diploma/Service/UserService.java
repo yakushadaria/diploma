@@ -1,7 +1,6 @@
 package com.example.diploma.Service;
 
-import com.example.diploma.DTO.UserRegisterDto;
-import com.example.diploma.Entity.Role;
+
 import com.example.diploma.Entity.User;
 import com.example.diploma.Repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -9,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
+
 
 @Service
 public class UserService {

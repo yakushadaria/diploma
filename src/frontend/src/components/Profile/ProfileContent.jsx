@@ -5,7 +5,7 @@ import UsersList from "../Profile/UsersList";
 import RoleChange from "../Profile/RoleChange";
 import DeleteUser from "../Profile/DeleteUser";
 import DescriptionChange from "../Profile/DescriptionChange";
-
+import AddCourse from "../Profile/AddCourse";
 
 function ProfileContent({ activeTab, setActiveTab }) {
   const { user, logout } = useAuth();
@@ -93,8 +93,8 @@ function ProfileContent({ activeTab, setActiveTab }) {
 
 
 
-      case "add-course":
-        return <h2>Додати курс</h2>;
+        case "add-course":
+            return <AddCourse />;
 
 
         case "logout":
