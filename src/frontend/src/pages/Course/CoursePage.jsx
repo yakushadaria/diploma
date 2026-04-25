@@ -79,9 +79,6 @@ function CoursePage() {
 
             <div className="course-content">
                 <h1 className="course-title">{course.title}</h1>
-                <p className="course-lang">
-                    {course.language?.name}
-                </p>
 
                 <div className="course-buttons">
                     {user?.role === "STUDENT" && (
@@ -99,7 +96,7 @@ function CoursePage() {
                     )}
                 </div>
 
-                {msg && <p>{msg}</p>}
+                {msg && <p className="course-msg">{msg}</p>}
 
                 <div className="course-topics">
                     <p>Теми, які розглядаються в курсі:</p>

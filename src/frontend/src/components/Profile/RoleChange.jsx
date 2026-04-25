@@ -38,6 +38,7 @@ function RoleChange() {
             <h2>Надати роль</h2>
             <div className="profile-card">
                 <select
+                    className="profile-select"
                     value={selectedUser}
                     onChange={(e) => setSelectedUser(e.target.value)}
                 >
@@ -50,6 +51,7 @@ function RoleChange() {
                 </select>
 
                 <select
+                    className="profile-select"
                     value={selectedRole}
                     onChange={(e) => setSelectedRole(e.target.value)}
                 >

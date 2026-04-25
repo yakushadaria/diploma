@@ -1,0 +1,95 @@
+.search-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.search-row input { flex: 1; }
+
+.btn-search {
+  white-space: nowrap;
+  height: 40px;
+  padding: 0 16px !important;
+  width: auto !important;
+  background: #c47a55 !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 10px !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  cursor: pointer;
+  transition: .2s;
+  margin: 0 !important;
+}
+.btn-search:hover { background: #b06846 !important; }
+
+.found-user-card {
+  animation: lessonIn .2s ease;
+}
+
+.found-user-top {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.found-user-avatar {
+  width: 52px;
+  height: 52px;
+  min-width: 52px;
+  border-radius: 50%;
+  background: rgba(196, 122, 85, .15);
+  color: #c47a55;
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.found-user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.found-user-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #2f2a26;
+}
+
+.found-user-email {
+  font-size: 13px;
+  color: #8a6f63;
+}
+
+.btn-delete-user {
+  width: 100% !important;
+  height: 42px !important;
+  background: #c44a4a !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 10px !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  cursor: pointer;
+  transition: .2s;
+  margin: 0 !important;
+}
+.btn-delete-user:hover {
+  background: #a83a3a !important;
+  transform: translateY(-1px);
+}
+.btn-delete-user:active { transform: none !important; }
+
+.users-msg {
+  font-size: 13px;
+  text-align: center;
+  padding: 8px 12px;
+  border-radius: 8px;
+  margin: 0;
+}
+.msg-success { background: #f0faf0; border: 1px solid #c8e6c8; color: #4a8a4a; }
+.msg-error   { background: #fff0f0; border: 1px solid #f5c8c8; color: #c44a4a; }
+
+.user-role { text-align: center; }

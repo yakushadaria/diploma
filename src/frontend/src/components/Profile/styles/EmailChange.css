@@ -1,0 +1,45 @@
+.email-change-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.email-change-hint {
+  font-size: 13px;
+  color: #8a6f63;
+}
+
+.email-change-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.email-change-field input {
+  height: 42px;
+  font-size: 14px;
+
+  border-radius: 10px;
+  border: 1px solid #e8ddd2;
+
+  padding: 0 12px;
+
+  transition: 0.2s;
+}
+
+.email-change-field input:focus {
+  border-color: #c47a55;
+  box-shadow: 0 0 0 3px rgba(196, 122, 85, 0.15);
+}
+
+.email-change-msg {
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+.email-change-msg.success {
+  color: #3c8c5a;
+}
+
+.email-change-msg.error {
+  color: #c44a4a;
+}

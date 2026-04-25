@@ -1,0 +1,83 @@
+/* =========================
+   DESCRIPTION CHANGE (PRO)
+========================= */
+
+.description-change-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* hint */
+.description-change-hint {
+  font-size: 13px;
+  color: #8a6f63;
+}
+
+/* textarea wrapper */
+.description-change-field {
+  position: relative;
+}
+
+/* textarea */
+.description-change-field textarea {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  min-height: 100px;
+
+  resize: none;
+
+  font-size: 14px;
+  line-height: 1.5;
+
+  padding: 12px;
+  padding-bottom: 28px;
+
+  border-radius: 12px;
+  border: 1px solid #e8ddd2;
+
+  background: #ffffff;
+
+  color: #2f2a26;
+
+  outline: none;
+
+  transition: 0.2s;
+}
+
+/* focus эффект */
+.description-change-field textarea:focus {
+  border-color: #c47a55;
+  box-shadow: 0 0 0 3px rgba(196, 122, 85, 0.15);
+}
+
+/* hover subtle */
+.description-change-field textarea:hover {
+  border-color: #d9c7b8;
+}
+
+/* character counter */
+.description-change-counter {
+  position: absolute;
+  bottom: 6px;
+  right: 10px;
+
+  font-size: 11px;
+  color: #8a6f63;
+}
+
+/* message */
+.description-change-msg {
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+/* optional states */
+.description-change-msg.success {
+  color: #3c8c5a;
+}
+
+.description-change-msg.error {
+  color: #c44a4a;
+}

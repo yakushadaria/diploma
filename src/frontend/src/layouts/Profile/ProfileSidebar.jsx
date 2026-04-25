@@ -1,5 +1,5 @@
-import { useAuth } from "../../context/AuthContext";
-import { sidebarItems } from "./SidebarConfig.jsx";
+import { useAuth } from "../../context/AuthContext.jsx";
+import { sidebarItems } from "../../components/Profile/SidebarConfig.jsx";
 
 function ProfileSidebar({ activeTab, setActiveTab }) {
   const { user } = useAuth();

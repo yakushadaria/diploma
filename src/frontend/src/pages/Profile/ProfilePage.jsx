@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
-import ProfileSidebar from "../../components/Profile/ProfileSidebar";
-import ProfileContent from "../../components/Profile/ProfileContent";
+import ProfileSidebar from "../../layouts/Profile/ProfileSidebar";
+import ProfileContent from "../../layouts/Profile/ProfileContent";
 import "./ProfilePage.css";
 
 function ProfilePage() {

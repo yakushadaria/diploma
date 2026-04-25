@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Sidebar from "../../layouts/Sidebar/Sidebar";
+import Sidebar from "../../layouts/Home/Sidebar/Sidebar";
 import CourseCard from "../../components/CourseCard/CourseCard";
 import "./HomePage.css";
 
@@ -16,7 +16,7 @@ function HomePage() {
   return (
       <div className="layout">
         <Sidebar />
-        <div style={{ padding: "10px" }}>
+        <div className="home-page-content" style={{ padding: "10px" }}>
           <h1 style={{ textAlign: "center" }}>Курси</h1>
           <div className="grid">
             {courses.length === 0 && <p>Курсів поки немає</p>}

@@ -87,7 +87,7 @@ function AuthPage() {
   return (
     <div className="auth">
       <div className="auth-card">
-        <h2>{mode === "login" ? "Login" : "Register"}</h2>
+        <h2>{mode === "login" ? "Логін" : "Регістрація"}</h2>
 
         <form onSubmit={mode === "login" ? handleLogin : handleRegister}>
 
@@ -96,14 +96,14 @@ function AuthPage() {
               <>
                 <input
                     type="text"
-                    placeholder="Username or Email"
+                    placeholder="Юзернейм чи імейл"
                     value={login}
                     onChange={(e) => setLogin(e.target.value)}
                 />
 
                 <input
                     type="password"
-                    placeholder="Password"
+                    placeholder="Пароль"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
@@ -116,21 +116,21 @@ function AuthPage() {
               <>
                 <input
                     type="text"
-                    placeholder="Username"
+                    placeholder="Юзернейм"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                 />
 
                 <input
                     type="email"
-                    placeholder="Email"
+                    placeholder="Імейл"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                 />
 
                 <input
                     type="password"
-                    placeholder="Password"
+                    placeholder="Пароль"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
@@ -140,14 +140,14 @@ function AuthPage() {
 
 
           <button type="submit">
-            {mode === "login" ? "Login" : "Register"}
+            {mode === "login" ? "Логін" : "Регістрація"}
           </button>
         </form>
 
         <p className="switch">
-          {mode === "login" ? "No account?" : "Already have an account?"}{" "}
+          {mode === "login" ? "Не маєте акаунт?" : "Вже маєте акаунт?"}{" "}
           <span onClick={() => setMode(mode === "login" ? "register" : "login")}>
-            {mode === "login" ? "Register" : "Login"}
+            {mode === "login" ? "Регістрація" : "Логін"}
           </span>
         </p>
       </div>

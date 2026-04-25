@@ -19,8 +19,8 @@ function MyLearningPage() {
     if (!user) { window.location.href = "/auth"; return null; }
 
     return (
-        <div style={{ padding: "20px" }}>
-            <h1>Моє навчання</h1>
+        <div style={{ padding: "30px" }}>
+            <h1 style={{ textAlign: "center" }}>Моє навчання</h1>
             {courses.length === 0 && <p>Ви ще не записані на жоден курс</p>}
             <div className="grid">
                 {courses.map(course => (

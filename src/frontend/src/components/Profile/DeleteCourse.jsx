@@ -39,6 +39,7 @@ function DeleteCourse() {
             <h2>Видалити курс</h2>
             <div className="profile-card">
                 <select
+                    className="profile-select"
                     value={selectedId}
                     onChange={(e) => setSelectedId(e.target.value)}
                 >

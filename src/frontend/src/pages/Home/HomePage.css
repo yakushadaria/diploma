@@ -16,6 +16,10 @@
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  justify-content: center;
+  justify-content: left;
   align-items: flex-start;
+}
+
+.home-page-content {
+  width: 100%;
 }
