@@ -62,7 +62,11 @@ public class SecurityConfig {
 
                                 "/api/courses/create",
                                  "/api/courses/{id}/lessons",
-                                "/api/courses/my"
+                                "/api/courses/my",
+
+                                "/api/news",
+                                "/api/news/**",
+                                "/api/news/upload-image"
                         ).permitAll()
                         .anyRequest().authenticated()
                 );

@@ -24,4 +24,3 @@ function ProfilePage() {
 export default ProfilePage;
 
 
-// <ProfileContent activeTab={activeTab} />

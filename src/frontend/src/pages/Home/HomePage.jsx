@@ -17,7 +17,6 @@ function HomePage() {
       <div className="layout">
         <Sidebar />
         <div className="home-page-content" style={{ padding: "10px" }}>
-          <h1 style={{ textAlign: "center" }}>Курси</h1>
           <div className="grid">
             {courses.length === 0 && <p>Курсів поки немає</p>}
             {courses.map(course => (

@@ -38,8 +38,8 @@ export const sidebarItems = {
       items: [
         { id: "users", label: "Перегляд користувачів" },
         { id: "roles", label: "Надати роль" },
-        { id: "delete-course", label: "Видалити курс" },
         { id: "delete-user", label: "Видалити користувача" },
+        { id: "delete-course", label: "Видалити курс" },
       ],
     },
     {
