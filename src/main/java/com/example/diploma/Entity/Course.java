@@ -21,6 +21,10 @@ public class Course {
     @JoinColumn(name = "language_id")
     private Language language;
 
+
+    private String level;
+
+
     @OneToMany(mappedBy = "course", fetch = FetchType.EAGER)
     @JsonIgnoreProperties("course")
     private List<Lesson> lessons;
@@ -44,5 +48,13 @@ public class Course {
     public List<Lesson> getLessons() {
         return lessons;
     }
+
+
+    public String getLevel() { return level; }
+    public void setLevel(String level) { this.level = level; }
+
+
+    public Language getLanguage() { return language; }
+    public void setLanguage(Language language) { this.language = language; }
 
 }

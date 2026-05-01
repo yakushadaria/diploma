@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Entity
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -23,4 +22,8 @@ public class Language {
 
     @OneToMany(mappedBy = "language")
     private List<Course> courses;
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
 }

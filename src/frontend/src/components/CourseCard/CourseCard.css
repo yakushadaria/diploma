@@ -9,7 +9,7 @@
   width: 100%;
   box-sizing: border-box;
 
-  min-height: 210px;
+  min-height: 255px;
 
   box-shadow: 0 2px 10px rgba(47, 42, 38, 0.06);
   transition: 0.2s;
@@ -35,11 +35,14 @@
   justify-content: space-between;
   font-size: 13px;
   color: #8a6f63;
-  margin-bottom: 10px;
+
+
+  margin-top: 5px;
+  margin-bottom: 7px;
 }
 
 .desc {
-  font-size: 14px;
+  font-size: 16px;
   color: #4a3f3a;
   line-height: 1.5;
 }
@@ -47,4 +50,29 @@
 .card-link {
   text-decoration: none;
   color: inherit;
+}
+
+
+
+
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.card-teacher {
+  font-size: 15px;
+  color: #8a6f63;
+  white-space: nowrap;
+}
+
+
+.card-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: auto;
+  padding-top: 5px;
 }

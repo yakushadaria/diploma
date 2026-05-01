@@ -162,7 +162,13 @@ public class CourseController {
             @RequestBody Map<String, String> body
     ) {
         if (username == null) return ResponseEntity.status(401).body("Not logged in");
-        String result = courseService.createCourse(username, body.get("title"), body.get("description"));
+        String result = courseService.createCourse(
+                username,
+                body.get("title"),
+                body.get("description"),
+                body.get("language"),
+                body.get("level")
+                );
         if (result.startsWith("OK")) return ResponseEntity.ok(result);
         return ResponseEntity.badRequest().body(result);
     }

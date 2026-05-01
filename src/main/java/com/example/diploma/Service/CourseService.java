@@ -3,6 +3,7 @@ package com.example.diploma.Service;
 import com.example.diploma.Entity.*;
 import com.example.diploma.Entity.Course;
 import com.example.diploma.Repository.CourseRepository;
+import com.example.diploma.Repository.LanguageRepository;
 import com.example.diploma.Repository.LessonRepository;
 import com.example.diploma.Repository.UserRepository;
 
@@ -19,17 +20,20 @@ public class CourseService {
     private final LessonRepository lessonRepository;
     private final UserRepository userRepository;
 
+    private  final LanguageRepository languageRepository;
+
     public CourseService(CourseRepository courseRepository,
                          LessonRepository lessonRepository,
-                         UserRepository userRepository) {
+                         UserRepository userRepository,
+                         LanguageRepository languageRepository) {
         this.courseRepository = courseRepository;
         this.lessonRepository = lessonRepository;
         this.userRepository = userRepository;
+        this.languageRepository = languageRepository;
     }
 
 
-
-    public String createCourse(String username, String title, String description) {
+    public String createCourse(String username, String title, String description, String language, String level) {
         User teacher = userRepository.findByUsername(username).orElse(null);
         if (teacher == null) return "User not found";
         if (!teacher.getRole().equals("TEACHER")) return "Access denied";
@@ -38,7 +42,20 @@ public class CourseService {
         Course course = new Course();
         course.setTitle(title);
         course.setDescription(description);
+        course.setLevel(level);
         course.setTeacher(teacher);
+
+        // найти язык по названию
+        if (language != null && !language.isEmpty()) {
+            Language lang = languageRepository.findByName(language).orElse(null);
+            if (lang == null) {
+                lang = new Language();
+                lang.setName(language);
+                lang = languageRepository.save(lang);
+            }
+            course.setLanguage(lang);
+        }
+
         courseRepository.save(course);
         return "OK:" + course.getId();
     }

@@ -25,7 +25,9 @@ function HomePage() {
                     id={course.id}
                     title={course.title}
                     language={course.language?.name || ""}
+                    level={course.level || ""}
                     description={course.description}
+                    teacher={course.teacher?.username || ""}
                 />
             ))}
           </div>
