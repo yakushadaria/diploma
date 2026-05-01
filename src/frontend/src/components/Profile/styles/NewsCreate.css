@@ -1,0 +1,97 @@
+.news-form {
+    width: 100%;
+    max-width: 700px;
+
+    margin: 30px auto;
+    padding: 25px;
+
+    background: #ffffff;
+    border-radius: 16px;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* INPUTS */
+.news-form input,
+.news-form textarea {
+    width: 95%;
+    padding: 12px 14px;
+
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+
+    font-size: 15px;
+    outline: none;
+
+    transition: 0.2s;
+    background: #fafafa;
+}
+
+.news-form input:focus,
+.news-form textarea:focus {
+    border-color: #c47a55;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(196, 122, 85, 0.15);
+}
+
+/* TEXTAREA */
+.news-form textarea {
+    resize: none;
+    min-height: 140px;
+}
+
+/* IMAGE PREVIEW */
+.news-form img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+
+    border-radius: 12px;
+    border: 1px solid #eee;
+}
+
+/* BUTTONS */
+.news-form button {
+    padding: 12px;
+
+    border: none;
+    border-radius: 10px;
+
+    font-size: 15px;
+    font-weight: 500;
+
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+/* primary button (publish / save) */
+.news-form button:first-of-type {
+    background: #c47a55;
+    color: white;
+}
+
+.news-form button:first-of-type:hover {
+    background: #b16845;
+    transform: translateY(-1px);
+}
+
+/* cancel button */
+.news-form button:last-of-type {
+    background: #f3f3f3;
+    color: #333;
+}
+
+.news-form button:last-of-type:hover {
+    background: #e7e7e7;
+}
+
+/* error message */
+.news-form p {
+    color: #d9534f;
+    font-size: 14px;
+    text-align: center;
+}

@@ -8,6 +8,8 @@ import DescriptionChange from "../../components/Profile/DescriptionChange";
 import AddCourse from "../../components/Profile/AddCourse";
 import DeleteCourse from "../../components/Profile/DeleteCourse";
 import ProfileView from "../../components/Profile/ProfileView";
+import NewsList from "../../components/Profile/NewsList.jsx";
+import NewsCreate from "../../components/Profile/NewsCreate.jsx";
 
 function ProfileContent({ activeTab, setActiveTab }) {
   const { user, logout } = useAuth();
@@ -64,6 +66,18 @@ function ProfileContent({ activeTab, setActiveTab }) {
 
         case "add-course":
             return <AddCourse />;
+
+
+        // список новостей
+        case "news-list":
+            return <NewsList />;
+
+        // НОВОЕ — создание новости
+        case "news-add":
+            return <NewsCreate />;
+
+
+
 
 
         case "logout":

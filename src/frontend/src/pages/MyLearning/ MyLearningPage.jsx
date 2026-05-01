@@ -20,7 +20,6 @@ function MyLearningPage() {
 
     return (
         <div style={{ padding: "30px" }}>
-            <h1 style={{ textAlign: "center" }}>Моє навчання</h1>
             {courses.length === 0 && <p>Ви ще не записані на жоден курс</p>}
             <div className="grid">
                 {courses.map(course => (

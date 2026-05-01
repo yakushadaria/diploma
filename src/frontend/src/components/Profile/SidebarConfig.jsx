@@ -43,6 +43,13 @@ export const sidebarItems = {
       ],
     },
     {
+      title: "Новини",
+      items: [
+        { id: "news-list", label: "Усі новини" },
+        { id: "news-add", label: "Додати новину" },
+      ],
+    },
+    {
       title: "Система",
       items: [
         { id: "logout", label: "Вихід з акаунту" },
