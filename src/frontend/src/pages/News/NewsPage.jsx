@@ -23,7 +23,7 @@ function NewsPage() {
 
                         {item.imageUrl && (
                             <img
-                                src={item.imageUrl}
+                                src={`http://localhost:8080${item.imageUrl}`}
                                 alt={item.title}
                                 className="news-image"
                             />

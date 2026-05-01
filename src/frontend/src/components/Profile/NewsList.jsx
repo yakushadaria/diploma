@@ -59,7 +59,9 @@ function NewsList() {
                     <div key={item.id} className="news-card">
 
                         {item.imageUrl && (
-                            <img src={item.imageUrl} alt={item.title} className="news-image" />
+                            <img src={`http://localhost:8080${item.imageUrl}`}
+                                alt={item.title}
+                                className="news-image" />
                         )}
 
                         <div className="news-body">
