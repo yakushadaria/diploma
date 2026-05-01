@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.time.LocalDate;
 
 @Service
 public class CourseService {
@@ -126,6 +127,43 @@ public class CourseService {
         courseRepository.deleteCourseById(courseId);
         return "OK";
     }
+
+
+
+
+
+
+    public String toggleCourse(String username, Long courseId) {
+        User teacher = userRepository.findByUsername(username).orElse(null);
+        if (teacher == null) return "User not found";
+        if (!teacher.getRole().equals("TEACHER")) return "Access denied";
+
+        Course course = courseRepository.findById(courseId).orElse(null);
+        if (course == null) return "Course not found";
+
+        if (course.getTeacher() == null || !course.getTeacher().getUsername().equals(username)) {
+            return "Access denied";
+        }
+
+        LocalDate today = LocalDate.now();
+
+        // сброс счётчика если новый день
+        if (course.getToggleDate() == null || !course.getToggleDate().equals(today)) {
+            course.setToggleCount(0);
+            course.setToggleDate(today);
+        }
+
+        if (course.getToggleCount() >= 2) {
+            return "Можна змінювати статус лише 2 рази на день для кожного курсу";
+        }
+
+        course.setActive(!course.isActive());
+        course.setToggleCount(course.getToggleCount() + 1);
+        course.setToggleDate(today);
+        courseRepository.save(course);
+        return "OK";
+    }
+
 
 
 

@@ -36,13 +36,16 @@ public class CourseController {
     }
 
 
+
     // получить все курсы
     @GetMapping
     public ResponseEntity<?> getAllCourses() {
-        List<Course> courses = courseRepository.findAll();
+        List<Course> courses = courseRepository.findAll()
+                .stream()
+                .filter(Course::isActive)
+                .toList();
         return ResponseEntity.ok(courses);
     }
-
 
 
 
@@ -61,6 +64,7 @@ public class CourseController {
         List<Enrollment> enrollments = enrollmentRepository.findByUser(user);
         List<Course> courses = enrollments.stream()
                 .map(Enrollment::getCourse)
+                .filter(Course::isActive)
                 .toList();
 
         return ResponseEntity.ok(courses);
@@ -135,6 +139,10 @@ public class CourseController {
 
         Course course = courseRepository.findById(id).orElse(null);
         if (course == null) return ResponseEntity.status(404).body("Course not found");
+
+        if (!course.isActive()) {
+            return ResponseEntity.badRequest().body("Курс закрито");
+        }
 
         // ← проверка лимита для студента
         if (enrollmentRepository.countByUser(user) >= 25) {
@@ -242,6 +250,28 @@ public class CourseController {
     }
 
 
+
+    // открытие и закрытие курсов для учителя
+    @PostMapping("/{id}/toggle")
+    public ResponseEntity<String> toggleCourse(
+            @PathVariable Long id,
+            @CookieValue(name = "user", required = false) String username
+    ) {
+        if (username == null) return ResponseEntity.status(401).body("Not logged in");
+        String result = courseService.toggleCourse(username, id);
+        if (result.equals("OK")) return ResponseEntity.ok("OK");
+        return ResponseEntity.badRequest().body(result);
+    }
+
+
+
+    // подсчет студентов на каждом курсе для учителя
+    @GetMapping("/{id}/students-count")
+    public ResponseEntity<?> getStudentsCount(@PathVariable Long id) {
+        Course course = courseRepository.findById(id).orElse(null);
+        if (course == null) return ResponseEntity.status(404).body(0);
+        return ResponseEntity.ok(enrollmentRepository.countByCourse(course));
+    }
 
 
 }

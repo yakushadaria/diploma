@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -56,5 +57,21 @@ public class Course {
 
     public Language getLanguage() { return language; }
     public void setLanguage(Language language) { this.language = language; }
+
+
+
+
+
+    private int toggleCount = 0;
+    private LocalDate toggleDate;
+    private boolean active = true;
+
+
+    public int getToggleCount() { return toggleCount; }
+    public void setToggleCount(int toggleCount) { this.toggleCount = toggleCount; }
+    public LocalDate getToggleDate() { return toggleDate; }
+    public void setToggleDate(LocalDate toggleDate) { this.toggleDate = toggleDate; }
+    public boolean isActive() { return active; }
+    public void setActive(boolean active) { this.active = active; }
 
 }

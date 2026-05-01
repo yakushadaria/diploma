@@ -62,6 +62,15 @@ function CoursePage() {
 
     if (!course) return <div>Завантаження...</div>;
 
+    if (!course.active) {
+        return (
+            <div style={{ padding: "40px", textAlign: "center" }}>
+                <h2>Курс закрито</h2>
+                <p>Викладач тимчасово закрив цей курс</p>
+            </div>
+        );
+    }
+
     return (
         <div className="course-page">
             <div className="course-sidebar">
