@@ -8,7 +8,7 @@
 
 /* SIDEBAR */
 .course-sidebar {
-    width: 240px;
+    width: 270px;
     min-width: 240px;
     padding: 24px;
     background: rgba(255, 255, 255, 0.7);
@@ -21,7 +21,7 @@
 }
 
 .course-sidebar h3 {
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 500;
     color: #8a6f63;
     text-transform: uppercase;
@@ -33,7 +33,7 @@
     padding: 10px 12px;
     border-radius: 10px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 17px;
     color: #2f2a26;
     transition: .2s;
     position: relative;
@@ -64,37 +64,43 @@
 /* CONTENT */
 .course-content {
     flex: 1;
-    padding: 40px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+
     box-sizing: border-box;
 }
+
+
+
+
+
+
 
 .course-title {
     font-size: 28px;
     font-weight: 600;
     color: #2f2a26;
     font-style: normal;
+    padding: 10px;
+
+    margin-bottom: 3px;
 }
 
 .course-lang {
-    font-size: 14px;
+    font-size: 18px;
     font-style: normal;
-    color: #8a6f63;
+    color: #000;
     background: rgba(196, 122, 85, .1);
-    color: #c47a55;
     display: inline-flex;
-    padding: 4px 12px;
+    padding: 12px 30px;
     border-radius: 999px;
     width: fit-content;
+
+    margin-bottom: 18px;
 }
 
-/* BUTTONS */
-.course-buttons {
-    display: flex;
-    gap: 10px;
-}
+
 
 .btn-enroll {
     height: 42px;
@@ -103,7 +109,7 @@
     color: #fff;
     border: none;
     border-radius: 10px;
-    font-size: 14px;
+    font-size: 18px;
     font-weight: 500;
     cursor: pointer;
     transition: .2s;
@@ -120,7 +126,7 @@
     color: #c44a4a;
     border: 1px solid #c44a4a;
     border-radius: 10px;
-    font-size: 14px;
+    font-size: 18px;
     font-weight: 500;
     cursor: pointer;
     transition: .2s;
@@ -135,16 +141,19 @@
     border: 1px solid #e8ddd2;
     border-radius: 14px;
     padding: 22px;
-    max-width: 700px;
+    max-width: 950px;
+
+    margin-top: 25px;
 }
 
 .course-topics > p {
-    font-size: 13px;
+    font-size: 17px;
     font-weight: 500;
     color: #8a6f63;
     text-transform: uppercase;
     letter-spacing: .05em;
-    margin-bottom: 14px;
+    margin-bottom: 20px;
+    margin-top: 10px;
 }
 
 .course-topics ol {
@@ -155,21 +164,21 @@
 }
 
 .course-topics li strong {
-    font-size: 15px;
+    font-size: 19px;
     font-weight: 500;
     color: #2f2a26;
 }
 
 .course-topics li p {
     margin-top: 4px;
-    font-size: 13px;
+    font-size: 18px;
     color: #8a6f63;
     line-height: 1.5;
 }
 
 /* MSG */
 .course-msg {
-    font-size: 13px;
+    font-size: 18px;
     padding: 8px 12px;
     border-radius: 8px;
     background: #f0faf0;
@@ -198,4 +207,34 @@
     aspect-ratio: 16 / 9;
     height: auto;
     border-radius: 12px;
+}
+
+
+
+
+
+
+.course-lang-sidebar {
+    width: 370px;
+    min-width: 160px;
+
+    border-left: 1px solid #e8ddd2;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 16px;
+
+    /* тень */
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.50);
+
+    overflow: hidden;
+    margin-left: 16px;
+}
+
+
+.course-lang-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
 }

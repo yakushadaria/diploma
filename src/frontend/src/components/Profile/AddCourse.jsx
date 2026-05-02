@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useState, useRef} from "react";
 import "./styles/AddCourse.css";
+import RichEditor from "./RichEditor.jsx";
+
 
 const languages = [
     { name: "Англійська", code: "gb" },
@@ -15,6 +17,9 @@ const languages = [
 ];
 
 const levels = ["A1", "A2", "B1", "B2", "C1", "C2"];
+
+
+
 
 function AddCourse() {
     const [title, setTitle] = useState("");
@@ -101,7 +106,7 @@ function AddCourse() {
                     }}
                     placeholder="Короткий опис курсу (до 70 символів)"
                 />
-                <p style={{ fontSize: "12px", color: "#8a6f63" }}>{description.length}/70</p>
+                <p style={{ fontSize: "16px", color: "#8a6f63" }}>{description.length}/70</p>
 
                 <div style={{ display: "flex", gap: "12px" }}>
                     <div style={{ position: "relative", flex: 1 }}>
@@ -205,11 +210,10 @@ function AddCourse() {
                                 placeholder="Назва теми"
                             />
 
-                            <textarea
+                            <RichEditor
                                 value={lesson.content}
-                                onChange={(e) => updateLesson(index, "content", e.target.value)}
+                                onChange={(value) => updateLesson(index, "content", value)}
                                 placeholder="Опис теми"
-                                rows={3}
                             />
 
                             <input
@@ -232,3 +236,14 @@ function AddCourse() {
 }
 
 export default AddCourse;
+
+
+
+/*
+<textarea
+    value={lesson.content}
+    onChange={(e) => updateLesson(index, "content", e.target.value)}
+    placeholder="Опис теми"
+    rows={3}
+/>
+ */
