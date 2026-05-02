@@ -63,7 +63,7 @@ public class CourseService {
 
 
 
-    public String addLesson(String username, Long courseId, String title, String content) {
+    public String addLesson(String username, Long courseId, String title, String content, String videoUrl) {
         User teacher = userRepository.findByUsername(username).orElse(null);
         if (teacher == null) return "User not found";
 
@@ -75,18 +75,20 @@ public class CourseService {
         lesson.setTitle(title);
         lesson.setContent(content);
         lesson.setCourse(course);
+        lesson.setVideoUrl(videoUrl);
         lessonRepository.save(lesson);
         return "OK";
     }
 
 
-    public String updateLesson(String username, Long lessonId, String title, String content) {
+    public String updateLesson(String username, Long lessonId, String title, String content, String videoUrl) {
         Lesson lesson = lessonRepository.findById(lessonId).orElse(null);
         if (lesson == null) return "Lesson not found";
         if (!lesson.getCourse().getTeacher().getUsername().equals(username)) return "Access denied";
 
         lesson.setTitle(title);
         lesson.setContent(content);
+        lesson.setVideoUrl(videoUrl);
         lessonRepository.save(lesson);
         return "OK";
     }

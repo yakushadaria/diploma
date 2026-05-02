@@ -10,6 +10,7 @@ import DeleteCourse from "../../components/Profile/DeleteCourse";
 import ProfileView from "../../components/Profile/ProfileView";
 import NewsList from "../../components/Profile/NewsList.jsx";
 import NewsCreate from "../../components/Profile/NewsCreate.jsx";
+import ManageLessons from "../../components/Profile/ManageLessons";
 
 function ProfileContent({ activeTab, setActiveTab }) {
   const { user, logout } = useAuth();
@@ -66,6 +67,12 @@ function ProfileContent({ activeTab, setActiveTab }) {
 
         case "add-course":
             return <AddCourse />;
+
+
+        case "manage-lessons":
+            return <ManageLessons />;
+
+
 
 
         // список новостей

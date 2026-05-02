@@ -72,6 +72,7 @@ export const sidebarItems = {
       items: [
         { id: "add-course", label: "Додати курс" },
         { id: "delete-course", label: "Видалити курс" },
+        { id: "manage-lessons", label: "Керування заняттями" },
       ],
     },
     {

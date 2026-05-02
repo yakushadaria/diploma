@@ -191,7 +191,7 @@ public class CourseController {
             @RequestBody Map<String, String> body
     ) {
         if (username == null) return ResponseEntity.status(401).body("Not logged in");
-        String result = courseService.addLesson(username, id, body.get("title"), body.get("content"));
+        String result = courseService.addLesson(username, id, body.get("title"), body.get("content"), body.get("videoUrl"));
         if (result.equals("OK")) return ResponseEntity.ok("Lesson added");
         return ResponseEntity.badRequest().body(result);
     }
@@ -206,7 +206,7 @@ public class CourseController {
             @RequestBody Map<String, String> body
     ) {
         if (username == null) return ResponseEntity.status(401).body("Not logged in");
-        String result = courseService.updateLesson(username, lessonId, body.get("title"), body.get("content"));
+        String result = courseService.updateLesson(username, lessonId, body.get("title"), body.get("content"), body.get("videoUrl"));
         if (result.equals("OK")) return ResponseEntity.ok("Lesson updated");
         return ResponseEntity.badRequest().body(result);
     }

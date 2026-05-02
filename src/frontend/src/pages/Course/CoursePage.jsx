@@ -3,12 +3,14 @@ import { useParams } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import "./CoursePage.css";
 
+
 function CoursePage() {
     const { id } = useParams();
     const { user } = useAuth();
     const [course, setCourse] = useState(null);
     const [enrolled, setEnrolled] = useState(false);
     const [msg, setMsg] = useState("");
+    const [activeLesson, setActiveLesson] = useState(null);
 
     useEffect(() => {
         fetch("http://localhost:8080/api/courses/" + id)
@@ -18,25 +20,12 @@ function CoursePage() {
         fetch("http://localhost:8080/api/courses/" + id + "/enrolled", {
             credentials: "include",
         })
-            .then(res => res.json())
-            .then(data => {
-                console.log("enrolled:", data);
-                setEnrolled(data);
-            });
+            .then(res => {
+                if (!res.ok) return false;
+                return res.json();
+            })
+            .then(data => setEnrolled(data));
     }, [id]);
-
-
-    fetch("http://localhost:8080/api/courses/" + id + "/enrolled", {
-        credentials: "include",
-    })
-        .then(res => {
-            if (!res.ok) return false;
-            return res.json();
-        })
-        .then(data => {
-            console.log("enrolled:", data);
-            setEnrolled(data);
-        });
 
     const handleEnroll = async () => {
         const res = await fetch("http://localhost:8080/api/courses/" + id + "/enroll", {
@@ -60,13 +49,19 @@ function CoursePage() {
         }
     };
 
+    const getYoutubeEmbedUrl = (url) => {
+        if (!url) return null;
+        const match = url.match(/(?:youtu\.be\/|youtube\.com\/watch\?v=)([^&]+)/);
+        return match ? "https://www.youtube.com/embed/" + match[1] : null;
+    };
+
     if (!course) return <div>Завантаження...</div>;
 
     if (!course.active) {
         return (
             <div style={{ padding: "40px", textAlign: "center" }}>
                 <h2>Курс закрито</h2>
-                <p>Викладач тимчасово закрив цей курс</p>
+                <p>Викладач тимчасово закрив цей курс.</p>
             </div>
         );
     }
@@ -76,48 +71,83 @@ function CoursePage() {
             <div className="course-sidebar">
                 <h3>Матеріали курсу</h3>
                 {course.lessons && course.lessons.map((lesson, i) => (
-                    <div key={lesson.id} className="course-lesson-item">
+                    <div
+                        key={lesson.id}
+                        className={`course-lesson-item ${activeLesson?.id === lesson.id ? "active" : ""}`}
+                        onClick={() => setActiveLesson(lesson)}
+                    >
                         Заняття №{i + 1}
                     </div>
                 ))}
             </div>
 
-
-
-
-
             <div className="course-content">
-                <h1 className="course-title">{course.title}</h1>
+                {!activeLesson ? (
+                    <>
+                        <h1 className="course-title">{course.title}</h1>
+                        <p className="course-lang">{course.language?.name} · {course.level}</p>
 
-                <div className="course-buttons">
-                    {user?.role === "STUDENT" && (
-                        <>
-                            {!enrolled ? (
-                                <button className="btn-enroll" onClick={handleEnroll}>
-                                    Приєднатись до курсу
-                                </button>
-                            ) : (
-                                <button className="btn-unenroll" onClick={handleUnenroll}>
-                                    Покинути курс
-                                </button>
+                        <div className="course-buttons">
+                            {user?.role === "STUDENT" && (
+                                <>
+                                    {!enrolled ? (
+                                        <button className="btn-enroll" onClick={handleEnroll}>
+                                            Приєднатись до курсу
+                                        </button>
+                                    ) : (
+                                        <button className="btn-unenroll" onClick={handleUnenroll}>
+                                            Покинути курс
+                                        </button>
+                                    )}
+                                </>
                             )}
-                        </>
-                    )}
-                </div>
+                        </div>
 
-                {msg && <p className="course-msg">{msg}</p>}
+                        {msg && <p className="course-msg">{msg}</p>}
 
-                <div className="course-topics">
-                    <p>Теми, які розглядаються в курсі:</p>
-                    <ol>
-                        {course.lessons && course.lessons.map((lesson, i) => (
-                            <li key={lesson.id}>
-                                <strong>{lesson.title}</strong>
-                                <p>{lesson.content}</p>
-                            </li>
-                        ))}
-                    </ol>
-                </div>
+                        <div className="course-topics">
+                            <p>Теми, які розглядаються в курсі:</p>
+                            <ol>
+                                {course.lessons && course.lessons.map((lesson) => (
+                                    <li key={lesson.id}>
+                                        <strong>{lesson.title}</strong>
+                                        <p>{lesson.content}</p>
+                                    </li>
+                                ))}
+                            </ol>
+                        </div>
+                    </>
+                ) : (
+                    <>
+                        <button
+                            onClick={() => setActiveLesson(null)}
+                            style={{ marginBottom: "16px", background: "none", border: "none", cursor: "pointer", color: "#c47a55", fontSize: "14px" }}
+                        >
+                            ← Назад до курсу
+                        </button>
+
+                        <h1 className="course-title">{activeLesson.title}</h1>
+
+                        <div className="lesson-content">
+                            <p>{activeLesson.content}</p>
+                        </div>
+                        
+                        {getYoutubeEmbedUrl(activeLesson.videoUrl) && (
+                            <div className="lesson-video">
+                                <iframe
+                                    width="60%"
+                                    height="500"
+                                    src={getYoutubeEmbedUrl(activeLesson.videoUrl)}
+                                    title={activeLesson.title}
+                                    frameBorder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowFullScreen
+                                />
+                            </div>
+                        )}
+
+                    </>
+                )}
             </div>
         </div>
     );

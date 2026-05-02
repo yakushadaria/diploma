@@ -177,3 +177,25 @@
     color: #4a8a4a;
     width: fit-content;
 }
+
+
+
+
+
+
+.lesson-video {
+    border-radius: 14px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+
+.lesson-video iframe {
+    width: 100%;
+    max-width: 850px;
+    aspect-ratio: 16 / 9;
+    height: auto;
+    border-radius: 12px;
+}
