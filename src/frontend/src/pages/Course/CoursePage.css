@@ -238,3 +238,35 @@
     border-top-left-radius: 16px;
     border-top-right-radius: 16px;
 }
+
+
+
+
+
+
+
+
+
+
+
+.course-exercise-sidebar {
+    width: 220px;
+    padding: 16px;
+    border-left: 1px solid #eee;
+}
+
+.exercise-item {
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-bottom: 6px;
+}
+
+.exercise-item:hover {
+    background: #f3f3f3;
+}
+
+.exercise-item.active {
+    background: #c47a55;
+    color: white;
+}

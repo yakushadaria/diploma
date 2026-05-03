@@ -1,6 +1,7 @@
 package com.example.diploma.Repository;
 
 import com.example.diploma.Entity.Exercise;
+import com.example.diploma.Entity.Lesson;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -8,4 +9,6 @@ import java.util.List;
 public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
 
     List<Exercise> findByLessonId(Long lessonId);
+
+    List<Exercise> findByLesson(Lesson lesson);
 }
