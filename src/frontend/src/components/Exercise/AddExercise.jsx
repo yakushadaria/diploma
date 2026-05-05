@@ -22,6 +22,13 @@ const templates = [
         color: "#f5f0ff",
         border: "#c9b3f0",
     },
+    {
+        type: "SPEAKING",
+        label: "Говоріння",
+        desc: "Вимовити слово або речення",
+        color: "#fdf0ff",
+        border: "#d4a0f0",
+    },
 ];
 
 function AddExercise({ lessonId, onAdded }) {

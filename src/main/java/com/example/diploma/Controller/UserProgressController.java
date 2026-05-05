@@ -1,9 +1,7 @@
 package com.example.diploma.Controller;
 
-import com.example.diploma.Entity.UserProgress;
-import com.example.diploma.Service.CourseService;
-import com.example.diploma.Service.UserProgressService;
-import lombok.RequiredArgsConstructor;
+import com.example.diploma.Entity.Progress;
+import com.example.diploma.Service.ProgressService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,29 +11,29 @@ import java.util.List;
 @CrossOrigin
 public class UserProgressController {
 
-    private final UserProgressService progressService;
+    private final ProgressService progressService;
 
-    public UserProgressController(UserProgressService progressService) {
+    public UserProgressController(ProgressService progressService) {
         this.progressService = progressService;
     }
 
     @GetMapping
-    public List<UserProgress> getAll() {
+    public List<Progress> getAll() {
         return progressService.getAll();
     }
 
     @GetMapping("/{id}")
-    public UserProgress getById(@PathVariable Long id) {
+    public Progress getById(@PathVariable Long id) {
         return progressService.getById(id).orElse(null);
     }
 
     @GetMapping("/user/{userId}")
-    public List<UserProgress> getByUser(@PathVariable Long userId) {
+    public List<Progress> getByUser(@PathVariable Long userId) {
         return progressService.getByUserId(userId);
     }
 
     @PostMapping
-    public UserProgress create(@RequestBody UserProgress progress) {
+    public Progress create(@RequestBody Progress progress) {
         return progressService.save(progress);
     }
 

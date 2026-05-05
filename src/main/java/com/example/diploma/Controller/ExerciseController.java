@@ -101,6 +101,7 @@ public class ExerciseController {
 
 
 
+    /*
     // проверить ответ
     @PostMapping("/{id}/answer")
     public ResponseEntity<?> submitAnswer(
@@ -126,6 +127,20 @@ public class ExerciseController {
             correct = exercise.getCorrectAnswer().trim().equalsIgnoreCase(userAnswer.trim());
         }
 
+        if (exercise.getType().equals("MATCH")) {
+            Map<String, String> correctPairs = parsePairs(exercise.getCorrectAnswer());
+            Map<String, String> userPairs = parsePairs(userAnswer);
+            correct = correctPairs.equals(userPairs);
+        } else if (exercise.getType().equals("SPEAKING")) {
+            // нечёткое сравнение — убираем пунктуацию и регистр
+            String correctClean = exercise.getCorrectAnswer().trim().toLowerCase().replaceAll("[^a-zA-Zа-яА-ЯіІїЇєЄ ]", "");
+            String userClean = userAnswer.trim().toLowerCase().replaceAll("[^a-zA-Zа-яА-ЯіІїЇєЄ ]", "");
+            correct = correctClean.equals(userClean);
+        } else {
+            correct = exercise.getCorrectAnswer().trim().equalsIgnoreCase(userAnswer.trim());
+        }
+
+
         ExerciseResult result = exerciseResultRepository
                 .findByUserAndExercise(user, exercise)
                 .orElse(new ExerciseResult());
@@ -138,6 +153,81 @@ public class ExerciseController {
 
         return ResponseEntity.ok(Map.of("correct", correct));
     }
+
+    */
+
+
+    // проверить ответ
+    @PostMapping("/{id}/answer")
+    public ResponseEntity<?> submitAnswer(
+            @PathVariable Long id,
+            @CookieValue(name = "user", required = false) String username,
+            @RequestBody Map<String, String> body
+    ) {
+        if (username == null) return ResponseEntity.status(401).body("Not logged in");
+
+        User user = userRepository.findByUsername(username).orElse(null);
+        Exercise exercise = exerciseRepository.findById(id).orElse(null);
+        if (user == null || exercise == null) return ResponseEntity.status(404).body("Not found");
+
+        String userAnswer = body.get("answer");
+        boolean correct;
+
+        if (exercise.getType().equals("MATCH")) {
+            Map<String, String> correctPairs = parsePairs(exercise.getCorrectAnswer());
+            Map<String, String> userPairs = parsePairs(userAnswer);
+            correct = correctPairs.equals(userPairs);
+        } else if (exercise.getType().equals("SPEAKING")) {
+            String correctClean = exercise.getCorrectAnswer().trim().toLowerCase()
+                    .replaceAll("[^a-zA-Zа-яА-ЯіІїЇєЄ ]", "");
+            String userClean = userAnswer.trim().toLowerCase()
+                    .replaceAll("[^a-zA-Zа-яА-ЯіІїЇєЄ ]", "");
+            correct = correctClean.equals(userClean);
+        } else {
+            correct = exercise.getCorrectAnswer().trim().equalsIgnoreCase(userAnswer.trim());
+        }
+
+        ExerciseResult result = exerciseResultRepository
+                .findByUserAndExercise(user, exercise)
+                .orElse(new ExerciseResult());
+
+        result.setUser(user);
+        result.setExercise(exercise);
+        result.setUserAnswer(userAnswer);
+        result.setCorrect(correct);
+
+        if (exercise.getType().equals("SPEAKING")) {
+            int currentAttempts = result.getAttempts();
+            if (currentAttempts >= 50) {
+                return ResponseEntity.badRequest().body(Map.of("error", "Максимум 50 спроб"));
+            }
+            result.setAttempts(currentAttempts + 1);
+
+            String[] correctWords = exercise.getCorrectAnswer().trim().toLowerCase().split(" ");
+            String[] userWords = userAnswer.trim().toLowerCase().split(" ");
+            int matches = 0;
+            for (String w : correctWords) {
+                for (String uw : userWords) {
+                    if (w.equals(uw)) { matches++; break; }
+                }
+            }
+            int accuracy = (int) Math.round((double) matches / correctWords.length * 100);
+
+            if (accuracy > result.getBestAccuracy()) {
+                result.setBestAccuracy(accuracy);
+            }
+        }
+
+        exerciseResultRepository.save(result);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("correct", correct);
+        response.put("attempts", result.getAttempts());
+        response.put("bestAccuracy", result.getBestAccuracy());
+
+        return ResponseEntity.ok(response);
+    }
+
 
     private Map<String, String> parsePairs(String input) {
         Map<String, String> map = new HashMap<>();

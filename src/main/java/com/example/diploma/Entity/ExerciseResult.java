@@ -21,6 +21,13 @@ public class ExerciseResult {
     private boolean correct;
 
 
+    private int attempts = 0;
+    private int bestAccuracy = 0;
+
+    public int getAttempts() { return attempts; }
+    public void setAttempts(int attempts) { this.attempts = attempts; }
+    public int getBestAccuracy() { return bestAccuracy; }
+    public void setBestAccuracy(int bestAccuracy) { this.bestAccuracy = bestAccuracy; }
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }

@@ -291,6 +291,7 @@ const typeLabels = {
     "MULTIPLE_CHOICE": "Тест",
     "FILL_WORD": "Вписати слово",
     "TRANSLATE": "Переклад",
+    "SPEAKING": "Говоріння",
 };
 
 function CoursePage() {
@@ -485,7 +486,8 @@ function CoursePage() {
                         <h1 className="course-title">{activeType === "ALL" ? "Всі завдання" : typeLabels[activeType]}</h1>
                         <ExerciseBlock
                             lessonId={activeLesson.id}
-                            activeType={activeType === "ALL" ? null : activeType}
+                            filterType={activeType === "ALL" ? null : activeType}
+                            courseLang={course.language?.name}
                         />
                     </>
                 ) : (

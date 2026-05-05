@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Entity
 @Data
-public class UserProgress {
+public class Progress {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
