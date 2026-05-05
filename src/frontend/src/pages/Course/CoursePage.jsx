@@ -258,7 +258,10 @@ import { useParams } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import ExerciseBlock from "../../components/Exercise/ExerciseBlock";
 import AddExercise from "../../components/Exercise/AddExercise";
+import TeacherExerciseList from "../../components/Exercise/TeacherExerciseList.jsx";
 import "./CoursePage.css";
+
+
 
 import engImg from "../../assets/Англійська.jpg";
 import spaImg from "../../assets/Іспанська.jpg";
@@ -300,6 +303,8 @@ function CoursePage() {
     const [activeType, setActiveType] = useState(null);
     const [lessonExercises, setLessonExercises] = useState({});
     const [expandedLessons, setExpandedLessons] = useState({});
+    const [lessonExercisesMap, setLessonExercisesMap] = useState({});
+
 
     useEffect(() => {
         fetch("http://localhost:8080/api/courses/" + id)
@@ -345,6 +350,31 @@ function CoursePage() {
         if (res.ok) { setEnrolled(false); setMsg("Ви покинули курс"); }
     };
 
+
+
+    const handleDeleteExercise = async (exerciseId, lessonId) => {
+        const res = await fetch("http://localhost:8080/api/exercises/" + exerciseId, {
+            method: "DELETE",
+            credentials: "include",
+        });
+        if (res.ok) {
+            setLessonExercises(prev => ({
+                ...prev,
+                [lessonId]: prev[lessonId].filter(ex => ex.id !== exerciseId),
+            }));
+        }
+    };
+
+
+    const loadExercises = async (lessonId) => {
+        const res = await fetch("http://localhost:8080/api/exercises/lesson/" + lessonId);
+        if (res.ok) {
+            const data = await res.json();
+            setLessonExercisesMap(prev => ({ ...prev, [lessonId]: data }));
+        }
+    };
+
+
     const getYoutubeEmbedUrl = (url) => {
         if (!url) return null;
         const match = url.match(/(?:youtu\.be\/|youtube\.com\/watch\?v=)([^&]+)/);
@@ -376,6 +406,7 @@ function CoursePage() {
                                 setActiveLesson(lesson);
                                 setActiveType(null);
                                 toggleLesson(lesson);
+                                loadExercises(lesson.id);
                             }}
                         >
                             Заняття №{i + 1}
@@ -454,7 +485,7 @@ function CoursePage() {
                         <h1 className="course-title">{activeType === "ALL" ? "Всі завдання" : typeLabels[activeType]}</h1>
                         <ExerciseBlock
                             lessonId={activeLesson.id}
-                            filterType={activeType === "ALL" ? null : activeType}
+                            activeType={activeType === "ALL" ? null : activeType}
                         />
                     </>
                 ) : (
@@ -478,9 +509,22 @@ function CoursePage() {
                             </div>
                         )}
 
+
+                        {/* список заданий только для учителя */}
                         {user?.role === "TEACHER" && (
-                            <AddExercise lessonId={activeLesson.id} />
+                            <div style={{ marginTop: "24px", borderTop: "1px solid #e8ddd2", paddingTop: "16px" }}>
+                                <h3 style={{ fontSize: "15px", fontWeight: "600", color: "#2f2a26", marginBottom: "12px" }}>
+                                    Завдання до заняття
+                                </h3>
+
+                                <TeacherExerciseList
+                                    lessonId={activeLesson.id}
+                                    exercises={lessonExercises[activeLesson.id] || []}
+                                    onDelete={(id) => handleDeleteExercise(id, activeLesson.id)}
+                                />
+                            </div>
                         )}
+
 
                         <button
                             onClick={() => setActiveLesson(null)}
@@ -493,15 +537,61 @@ function CoursePage() {
             </div>
 
             {/* правый сайдбар с картинкой */}
-            <div className="course-lang-sidebar">
-                {course.language?.name && imageMap[course.language.name] && (
-                    <img
-                        src={imageMap[course.language.name]}
-                        alt={course.language.name}
-                        className="course-lang-image"
+            {/* правый сайдбар */}
+            {user?.role === "TEACHER" && activeType === "ALL" ? (
+
+
+
+                // для учителя во вкладке заданий — форма добавления
+                <div style={{
+                    width: "320px",
+                    minWidth: "320px",
+                    borderLeft: "1px solid #e8ddd2",
+                    padding: "24px 16px",
+                    overflowY: "auto",
+
+                }}>
+
+    <>
+                    <TeacherExerciseList
+                        exercises={lessonExercisesMap[activeLesson.id] || []}
+                        onDelete={async (id) => {
+                            await fetch("http://localhost:8080/api/exercises/" + id, {
+                                method: "DELETE",
+                                credentials: "include",
+                            });
+                            loadExercises(activeLesson.id);
+                        }}
                     />
-                )}
-            </div>
+                    <div style={{ marginTop: "24px", borderTop: "1px solid #e8ddd2", paddingTop: "16px" }}>
+                        <AddExercise
+                            lessonId={activeLesson.id}
+                            onAdded={() => loadExercises(activeLesson.id)}
+                        />
+                    </div>
+                </>
+
+
+
+
+                </div>
+
+
+
+
+
+            ) : (
+                // для всех остальных — картинка языка
+                <div className="course-lang-sidebar">
+                    {course.language?.name && imageMap[course.language.name] && (
+                        <img
+                            src={imageMap[course.language.name]}
+                            alt={course.language.name}
+                            className="course-lang-image"
+                        />
+                    )}
+                </div>
+            )}
         </div>
     );
 }

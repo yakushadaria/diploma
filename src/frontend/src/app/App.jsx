@@ -10,6 +10,7 @@ import AboutPage from "../pages/About/AboutPage";
 import Footer from "../layouts/Footer/Footer";
 import NewsPage from "../pages/News/NewsPage";
 
+
 function App() {
     return (
         <BrowserRouter>

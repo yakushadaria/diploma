@@ -14,55 +14,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api/exercises")
 public class ExerciseController {
-
-    /*
-    private final ExerciseService exerciseService;
-
-    public  ExerciseController(ExerciseService exerciseService) {
-        this.exerciseService = exerciseService;
-    }
-
-
-    @GetMapping
-    public List<Exercise> getAll() {
-        return exerciseService.getAll();
-    }
-
-    @GetMapping("/{id}")
-    public Exercise getById(@PathVariable Long id) {
-        return exerciseService.getById(id).orElse(null);
-    }
-
-    @GetMapping("/lesson/{lessonId}")
-    public List<Exercise> getByLesson(@PathVariable Long lessonId) {
-        return exerciseService.getByLessonId(lessonId);
-    }
-
-    @PostMapping
-    public Exercise create(@RequestBody Exercise exercise) {
-        return exerciseService.save(exercise);
-    }
-
-    @PutMapping("/{id}")
-    public Exercise update(@PathVariable Long id, @RequestBody Exercise exercise) {
-        exercise.setId(id);
-        return exerciseService.save(exercise);
-    }
-
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
-        exerciseService.delete(id);
-    }
-
-    */
-
-
 
     private final ExerciseRepository exerciseRepository;
     private final ExerciseResultRepository exerciseResultRepository;
@@ -129,7 +87,15 @@ public class ExerciseController {
             @CookieValue(name = "user", required = false) String username
     ) {
         if (username == null) return ResponseEntity.status(401).body("Not logged in");
+
+        Exercise exercise = exerciseRepository.findById(id).orElse(null);
+        if (exercise == null) return ResponseEntity.status(404).body("Not found");
+
+        // сначала удаляем результаты
+        exerciseResultRepository.deleteByExercise(exercise);
+        // потом само задание
         exerciseRepository.deleteById(id);
+
         return ResponseEntity.ok("Deleted");
     }
 
@@ -149,7 +115,16 @@ public class ExerciseController {
         if (user == null || exercise == null) return ResponseEntity.status(404).body("Not found");
 
         String userAnswer = body.get("answer");
-        boolean correct = exercise.getCorrectAnswer().trim().equalsIgnoreCase(userAnswer.trim());
+        boolean correct;
+
+        if (exercise.getType().equals("MATCH")) {
+            // парсим пары и сравниваем независимо от порядка
+            Map<String, String> correctPairs = parsePairs(exercise.getCorrectAnswer());
+            Map<String, String> userPairs = parsePairs(userAnswer);
+            correct = correctPairs.equals(userPairs);
+        } else {
+            correct = exercise.getCorrectAnswer().trim().equalsIgnoreCase(userAnswer.trim());
+        }
 
         ExerciseResult result = exerciseResultRepository
                 .findByUserAndExercise(user, exercise)
@@ -164,6 +139,17 @@ public class ExerciseController {
         return ResponseEntity.ok(Map.of("correct", correct));
     }
 
+    private Map<String, String> parsePairs(String input) {
+        Map<String, String> map = new HashMap<>();
+        if (input == null) return map;
+        for (String pair : input.split(",")) {
+            String[] parts = pair.trim().split("=");
+            if (parts.length == 2) {
+                map.put(parts[0].trim(), parts[1].trim());
+            }
+        }
+        return map;
+    }
 
 
     // получить результаты студента

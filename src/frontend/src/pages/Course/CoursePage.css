@@ -216,7 +216,12 @@
 
 .course-lang-sidebar {
     width: 370px;
+    height: 805px;
     min-width: 160px;
+
+    position: sticky;   /* 🔥 закрепление при скролле */
+    top: 1px;          /* где она “прилипает” */
+
 
     border-left: 1px solid #e8ddd2;
     background: rgba(255, 255, 255, 0.9);

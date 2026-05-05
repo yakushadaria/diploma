@@ -11,4 +11,5 @@ public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
     List<Exercise> findByLessonId(Long lessonId);
 
     List<Exercise> findByLesson(Lesson lesson);
+
 }
