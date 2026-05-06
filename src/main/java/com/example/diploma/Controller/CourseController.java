@@ -1,16 +1,14 @@
 package com.example.diploma.Controller;
 
-import com.example.diploma.Entity.Course;
-import com.example.diploma.Entity.Enrollment;
-import com.example.diploma.Entity.User;
-import com.example.diploma.Repository.CourseRepository;
-import com.example.diploma.Repository.EnrollmentRepository;
-import com.example.diploma.Repository.UserRepository;
+import com.example.diploma.Entity.*;
+import com.example.diploma.Repository.*;
 import com.example.diploma.Service.CourseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +23,14 @@ public class CourseController {
     private final UserRepository userRepository;
     private final CourseService courseService;
 
+
+
+    private final LessonRepository lessonRepository;
+    private final ExerciseRepository exerciseRepository;
+    private final ExerciseResultRepository exerciseResultRepository;
+
+
+    /*
     public CourseController(CourseRepository courseRepository,
                             EnrollmentRepository enrollmentRepository,
                             UserRepository userRepository,
@@ -34,6 +40,30 @@ public class CourseController {
         this.userRepository = userRepository;
         this.courseService = courseService;
     }
+*/
+
+
+
+
+    public CourseController(CourseRepository courseRepository,
+                            EnrollmentRepository enrollmentRepository,
+                            UserRepository userRepository,
+                            CourseService courseService,
+                            LessonRepository lessonRepository,
+                            ExerciseRepository exerciseRepository,
+                            ExerciseResultRepository exerciseResultRepository) {
+        this.courseRepository = courseRepository;
+        this.enrollmentRepository = enrollmentRepository;
+        this.userRepository = userRepository;
+        this.courseService = courseService;
+        this.lessonRepository = lessonRepository;
+        this.exerciseRepository = exerciseRepository;
+        this.exerciseResultRepository = exerciseResultRepository;
+    }
+
+
+
+
 
 
 
@@ -272,6 +302,66 @@ public class CourseController {
         if (course == null) return ResponseEntity.status(404).body(0);
         return ResponseEntity.ok(enrollmentRepository.countByCourse(course));
     }
+
+
+
+
+
+
+    
+
+
+    @GetMapping("/{id}/progress")
+    public ResponseEntity<?> getCourseProgress(
+            @PathVariable Long id,
+            @CookieValue(name = "user", required = false) String username
+    ) {
+        if (username == null) return ResponseEntity.status(401).body("Not logged in");
+
+        User user = userRepository.findByUsername(username).orElse(null);
+        Course course = courseRepository.findById(id).orElse(null);
+        if (user == null || course == null) return ResponseEntity.status(404).body("Not found");
+
+        List<Lesson> lessons = lessonRepository.findByCourseId(id);
+
+        List<Map<String, Object>> progress = new ArrayList<>();
+        for (Lesson lesson : lessons) {
+            List<Exercise> exercises = exerciseRepository.findByLesson(lesson);
+
+            Map<String, Object> lessonProgress = new HashMap<>();
+            lessonProgress.put("lessonId", lesson.getId());
+            lessonProgress.put("lessonTitle", lesson.getTitle());
+
+            if (exercises.isEmpty()) {
+                lessonProgress.put("status", "NO_EXERCISES");
+                lessonProgress.put("total", 0);
+                lessonProgress.put("completed", 0);
+            } else {
+                List<ExerciseResult> results = exerciseResultRepository
+                        .findByUserAndExerciseIn(user, exercises);
+
+                long correct = results.stream().filter(ExerciseResult::isCorrect).count();
+                lessonProgress.put("total", exercises.size());
+                lessonProgress.put("completed", results.size());
+                lessonProgress.put("correct", correct);
+                lessonProgress.put("status", results.size() >= exercises.size() && correct == exercises.size()
+                        ? "DONE" : results.size() > 0 ? "IN_PROGRESS" : "NOT_STARTED");
+            }
+
+            progress.add(lessonProgress);
+        }
+
+        return ResponseEntity.ok(progress);
+    }
+
+
+
+
+
+
+
+
+
 
 
 }

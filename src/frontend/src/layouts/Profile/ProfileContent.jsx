@@ -11,6 +11,8 @@ import ProfileView from "../../components/Profile/ProfileView";
 import NewsList from "../../components/Profile/NewsList.jsx";
 import NewsCreate from "../../components/Profile/NewsCreate.jsx";
 import ManageLessons from "../../components/Profile/ManageLessons";
+import ProgressPage from "../../pages/Progress/ProgressPage";
+
 
 function ProfileContent({ activeTab, setActiveTab }) {
   const { user, logout } = useAuth();
@@ -36,8 +38,16 @@ function ProfileContent({ activeTab, setActiveTab }) {
       case "completed":
         return <h2>Завершені курси</h2>;
 
+
       case "progress":
-        return <h2>Перегляд прогресу</h2>;
+          return (
+              <div style={{
+                  width: "100%"
+              }}>
+                  <ProgressPage />
+              </div>
+          );
+
 
 
         case "users":
@@ -82,6 +92,7 @@ function ProfileContent({ activeTab, setActiveTab }) {
         // НОВОЕ — создание новости
         case "news-add":
             return <NewsCreate />;
+
 
 
 

@@ -1,0 +1,109 @@
+.progress-container {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.progress-title {
+    font-size: 28px;
+    font-weight: 600;
+    color: #2f2a26;
+    margin-bottom: 30px;
+    text-align: center;
+
+}
+
+.progress-empty {
+    text-align: center;
+    color: #8a6f63;
+}
+
+/* GRID */
+.progress-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    gap: 40px;
+}
+
+/* CARD */
+.progress-card {
+    background: rgba(255, 250, 245, 0.9);
+    border: 1px solid #e8ddd2;
+    border-radius: 16px;
+    padding: 24px;
+}
+
+/* HEADER */
+.progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    cursor: pointer;
+}
+
+.progress-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.progress-course-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #2f2a26;
+}
+
+.progress-counter {
+    font-size: 14px;
+    color: #8a6f63;
+}
+
+/* BAR */
+.progress-bar {
+    background: #e8ddd2;
+    height: 8px;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: #c47a55;
+    transition: width 0.5s ease;
+}
+
+.progress-percent {
+    font-size: 13px;
+    color: #8a6f63;
+    margin-top: 8px;
+    margin-bottom: 16px;
+}
+
+/* LESSONS */
+.progress-lessons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.lesson-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    background: white;
+    border: 1px solid #e8ddd2;
+    border-radius: 10px;
+}
+
+.lesson-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.lesson-score {
+    font-size: 12px;
+    color: #8a6f63;
+}

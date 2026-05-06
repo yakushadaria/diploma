@@ -9,7 +9,7 @@ import MyLearningPage from "../pages/MyLearning/ MyLearningPage.jsx";
 import AboutPage from "../pages/About/AboutPage";
 import Footer from "../layouts/Footer/Footer";
 import NewsPage from "../pages/News/NewsPage";
-
+import ProgressPage from "../pages/Progress/ProgressPage";
 
 function App() {
     return (
@@ -25,6 +25,8 @@ function App() {
                     <Route path="/my-learning" element={<MyLearningPage />} />
                     <Route path="/about" element={<AboutPage />} />
                     <Route path="/news" element={<NewsPage />} />
+
+                    <Route path="/progress" element={<ProgressPage />} />
                 </Routes>
             </div>
         </BrowserRouter>

@@ -68,7 +68,9 @@ public class SecurityConfig {
                                 "/api/news/**",
                                 "/api/news/upload-image",
 
-                                "/api/exercises/**"
+                                "/api/exercises/**",
+
+                                "/api/courses/*/progress"
                         ).permitAll()
                         .anyRequest().authenticated()
                 );

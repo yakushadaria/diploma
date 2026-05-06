@@ -588,137 +588,7 @@ const langMap = {
 };
 
 
-/*
-function SpeakingExercise({ exercise, onAnswer, result, language }) {
-    const [listening, setListening] = useState(false);
-    const [transcript, setTranscript] = useState("");
-    const [error, setError] = useState("");
-    const [accuracy, setAccuracy] = useState(null);
 
-
-    const calcAccuracy = (correct, spoken) => {
-        const c = correct.trim().toLowerCase().replace(/[^a-zA-Zа-яА-ЯіІїЇєЄ ]/g, "");
-        const s = spoken.trim().toLowerCase().replace(/[^a-zA-Zа-яА-ЯіІїЇєЄ ]/g, "");
-
-        const cWords = c.split(" ");
-        const sWords = s.split(" ");
-
-        let matches = 0;
-        cWords.forEach(word => {
-            if (sWords.includes(word)) matches++;
-        });
-
-        return Math.round((matches / cWords.length) * 100);
-    };
-
-    const handleSpeak = () => {
-        if (!("webkitSpeechRecognition" in window) && !("SpeechRecognition" in window)) {
-            setError("Ваш браузер не підтримує розпізнавання мови. Використовуйте Chrome.");
-            return;
-        }
-
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        const recognition = new SpeechRecognition();
-        recognition.lang = langMap[language] || "en-US";
-        recognition.interimResults = false;
-        recognition.maxAlternatives = 1;
-
-        setListening(true);
-        setTranscript("");
-        setError("");
-        setAccuracy(null);
-
-        recognition.onresult = (e) => {
-            const text = e.results[0][0].transcript;
-            const acc = calcAccuracy(exercise.correctAnswer, text);
-            setTranscript(text);
-            setAccuracy(acc);
-            setListening(false);
-            onAnswer(text);
-        };
-
-        recognition.onerror = (e) => {
-            setListening(false);
-            setError("Помилка розпізнавання: " + e.error);
-        };
-
-        recognition.onend = () => setListening(false);
-        recognition.start();
-    };
-
-    const getAccuracyColor = (acc) => {
-        if (acc >= 80) return "#4a8a4a";
-        if (acc >= 50) return "#c47a55";
-        return "#c44a4a";
-    };
-
-    return (
-        <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-            <div style={{ background: "#fdf0ff", border: "1px solid #d4a0f0", borderRadius: "10px", padding: "12px 16px" }}>
-                <p style={{ fontSize: "13px", color: "#8a6f63", marginBottom: "4px" }}>Вимовте:</p>
-                <p style={{ fontSize: "16px", fontWeight: "600", color: "#2f2a26" }}>{exercise.correctAnswer}</p>
-            </div>
-
-            {!result && (
-                <button
-                    onClick={handleSpeak}
-                    disabled={listening}
-                    style={{
-                        padding: "12px 20px",
-                        borderRadius: "10px",
-                        background: listening ? "#e8ddd2" : "#c47a55",
-                        color: "white",
-                        border: "none",
-                        cursor: listening ? "default" : "pointer",
-                        fontSize: "14px",
-                        fontWeight: "500",
-                        width: "fit-content",
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "8px",
-                    }}
-                >
-                    {listening ? "🎤 Слухаю..." : "🎤 Говорити"}
-                </button>
-            )}
-
-            {transcript && (
-                <p style={{ fontSize: "14px", color: "#8a6f63" }}>
-                    Ви сказали: <strong>{transcript}</strong>
-                </p>
-            )}
-
-            {accuracy !== null && (
-                <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-                    <p style={{ fontSize: "13px", color: "#8a6f63" }}>Точність вимови:</p>
-                    <div style={{ background: "#e8ddd2", borderRadius: "999px", height: "10px", width: "100%", overflow: "hidden" }}>
-                        <div style={{
-                            width: accuracy + "%",
-                            height: "100%",
-                            background: getAccuracyColor(accuracy),
-                            borderRadius: "999px",
-                            transition: "width 0.5s ease",
-                        }} />
-                    </div>
-                    <p style={{ fontSize: "14px", fontWeight: "600", color: getAccuracyColor(accuracy) }}>
-                        {accuracy}%
-                    </p>
-                </div>
-            )}
-
-            {error && (
-                <p style={{ fontSize: "13px", color: "#c44a4a" }}>{error}</p>
-            )}
-
-            {result && (
-                <p style={{ color: result.correct ? "#4a8a4a" : "#c44a4a", fontWeight: "500" }}>
-                    {result.correct ? "✓ Правильно" : "✗ правильна відповідь: " + exercise.correctAnswer}
-                </p>
-            )}
-        </div>
-    );
-}
-*/
 
 
 
@@ -731,14 +601,22 @@ function SpeakingExercise({ exercise, onAnswer, result, language }) {
     const [bestAccuracy, setBestAccuracy] = useState(result?.bestAccuracy || 0);
 
     const calcAccuracy = (correct, spoken) => {
-        const c = correct.trim().toLowerCase().replace(/[^a-zA-Zа-яА-ЯіІїЇєЄ ]/g, "");
-        const s = spoken.trim().toLowerCase().replace(/[^a-zA-Zа-яА-ЯіІїЇєЄ ]/g, "");
-        const cWords = c.split(" ");
-        const sWords = s.split(" ");
+        const c = correct.trim().toLowerCase().replace(/[^a-zA-Zа-яА-ЯіІїЇєЄ]/g, "");
+        const s = spoken.trim().toLowerCase().replace(/[^a-zA-Zа-яА-ЯіІїЇєЄ]/g, "");
+
+        if (c === s) return 100;
+        if (s.length === 0) return 0;
+
+        const maxLen = Math.max(c.length, s.length);
         let matches = 0;
-        cWords.forEach(word => { if (sWords.includes(word)) matches++; });
-        return Math.round((matches / cWords.length) * 100);
+
+        for (let i = 0; i < Math.min(c.length, s.length); i++) {
+            if (c[i] === s[i]) matches++;
+        }
+
+        return Math.round((matches / maxLen) * 100);
     };
+
 
     const getAccuracyColor = (acc) => {
         if (acc >= 80) return "#4a8a4a";
@@ -747,7 +625,7 @@ function SpeakingExercise({ exercise, onAnswer, result, language }) {
     };
 
     const handleSpeak = () => {
-        if (attempts >= 50) { setError("Ви вичерпали всі 50 спроб"); return; }
+        if (attempts >= 20) { setError("Ви вичерпали всі 20 спроб"); return; }
 
         if (!("webkitSpeechRecognition" in window) && !("SpeechRecognition" in window)) {
             setError("Ваш браузер не підтримує розпізнавання мови. Використовуйте Chrome.");
@@ -804,14 +682,14 @@ function SpeakingExercise({ exercise, onAnswer, result, language }) {
 
             <button
                 onClick={handleSpeak}
-                disabled={listening || attempts >= 50}
+                disabled={listening || attempts >= 20}
                 style={{
                     padding: "12px 20px",
                     borderRadius: "10px",
-                    background: listening || attempts >= 50 ? "#e8ddd2" : "#c47a55",
+                    background: listening || attempts >= 20 ? "#e8ddd2" : "#c47a55",
                     color: "white",
                     border: "none",
-                    cursor: listening || attempts >= 50 ? "default" : "pointer",
+                    cursor: listening || attempts >= 20 ? "default" : "pointer",
                     fontSize: "14px",
                     fontWeight: "500",
                     width: "fit-content",
@@ -820,11 +698,11 @@ function SpeakingExercise({ exercise, onAnswer, result, language }) {
                     gap: "8px",
                 }}
             >
-                {listening ? "🎤 Слухаю..." : attempts >= 50 ? "🎤 Спроби вичерпано" : "🎤 Говорити"}
+                {listening ? "🎤 Слухаю..." : attempts >= 20 ? "🎤 Спроби вичерпано" : "🎤 Говорити"}
             </button>
 
             <p style={{ fontSize: "13px", color: "#8a6f63" }}>
-                Спроби: {attempts}/50
+                Спроби: {attempts}/20
             </p>
 
             {transcript && (

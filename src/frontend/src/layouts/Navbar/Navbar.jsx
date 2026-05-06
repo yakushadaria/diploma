@@ -20,9 +20,22 @@ function Navbar() {
           <Link className="link" to="/my-courses">Мої курси</Link>
         )}
 
+
+
+
+
+        {user?.role === "STUDENT" && (
+              <Link className="link" to="/progress">Мій прогрес</Link>
+        )}
+
+
         {user?.role === 'STUDENT' && (
           <Link className="link" to="/my-learning">Моє навчання</Link>
         )}
+
+
+
+
 
         {user?.role === 'ADMIN' && (
           <Link className="link" to="/admin">Користувачі</Link>

@@ -101,62 +101,10 @@ public class ExerciseController {
 
 
 
+
+
+
     /*
-    // проверить ответ
-    @PostMapping("/{id}/answer")
-    public ResponseEntity<?> submitAnswer(
-            @PathVariable Long id,
-            @CookieValue(name = "user", required = false) String username,
-            @RequestBody Map<String, String> body
-    ) {
-        if (username == null) return ResponseEntity.status(401).body("Not logged in");
-
-        User user = userRepository.findByUsername(username).orElse(null);
-        Exercise exercise = exerciseRepository.findById(id).orElse(null);
-        if (user == null || exercise == null) return ResponseEntity.status(404).body("Not found");
-
-        String userAnswer = body.get("answer");
-        boolean correct;
-
-        if (exercise.getType().equals("MATCH")) {
-            // парсим пары и сравниваем независимо от порядка
-            Map<String, String> correctPairs = parsePairs(exercise.getCorrectAnswer());
-            Map<String, String> userPairs = parsePairs(userAnswer);
-            correct = correctPairs.equals(userPairs);
-        } else {
-            correct = exercise.getCorrectAnswer().trim().equalsIgnoreCase(userAnswer.trim());
-        }
-
-        if (exercise.getType().equals("MATCH")) {
-            Map<String, String> correctPairs = parsePairs(exercise.getCorrectAnswer());
-            Map<String, String> userPairs = parsePairs(userAnswer);
-            correct = correctPairs.equals(userPairs);
-        } else if (exercise.getType().equals("SPEAKING")) {
-            // нечёткое сравнение — убираем пунктуацию и регистр
-            String correctClean = exercise.getCorrectAnswer().trim().toLowerCase().replaceAll("[^a-zA-Zа-яА-ЯіІїЇєЄ ]", "");
-            String userClean = userAnswer.trim().toLowerCase().replaceAll("[^a-zA-Zа-яА-ЯіІїЇєЄ ]", "");
-            correct = correctClean.equals(userClean);
-        } else {
-            correct = exercise.getCorrectAnswer().trim().equalsIgnoreCase(userAnswer.trim());
-        }
-
-
-        ExerciseResult result = exerciseResultRepository
-                .findByUserAndExercise(user, exercise)
-                .orElse(new ExerciseResult());
-
-        result.setUser(user);
-        result.setExercise(exercise);
-        result.setUserAnswer(userAnswer);
-        result.setCorrect(correct);
-        exerciseResultRepository.save(result);
-
-        return ResponseEntity.ok(Map.of("correct", correct));
-    }
-
-    */
-
-
     // проверить ответ
     @PostMapping("/{id}/answer")
     public ResponseEntity<?> submitAnswer(
@@ -228,6 +176,80 @@ public class ExerciseController {
         return ResponseEntity.ok(response);
     }
 
+*/
+
+
+    @PostMapping("/{id}/answer")
+    public ResponseEntity<?> submitAnswer(
+            @PathVariable Long id,
+            @CookieValue(name = "user", required = false) String username,
+            @RequestBody Map<String, String> body
+    ) {
+        if (username == null) return ResponseEntity.status(401).body("Not logged in");
+
+        User user = userRepository.findByUsername(username).orElse(null);
+        Exercise exercise = exerciseRepository.findById(id).orElse(null);
+        if (user == null || exercise == null) return ResponseEntity.status(404).body("Not found");
+
+        String userAnswer = body.get("answer");
+        boolean correct;
+
+        ExerciseResult result = exerciseResultRepository
+                .findByUserAndExercise(user, exercise)
+                .orElse(new ExerciseResult());
+
+        result.setUser(user);
+        result.setExercise(exercise);
+        result.setUserAnswer(userAnswer);
+
+        if (exercise.getType().equals("MATCH")) {
+            Map<String, String> correctPairs = parsePairs(exercise.getCorrectAnswer());
+            Map<String, String> userPairs = parsePairs(userAnswer);
+            correct = correctPairs.equals(userPairs);
+            result.setCorrect(correct);
+
+        } else if (exercise.getType().equals("SPEAKING")) {
+            String correctClean = exercise.getCorrectAnswer().trim().toLowerCase()
+                    .replaceAll("[^a-zA-Zа-яА-ЯіІїЇєЄ]", "");
+            String userClean = userAnswer.trim().toLowerCase()
+                    .replaceAll("[^a-zA-Zа-яА-ЯіІїЇєЄ]", "");
+
+            int maxLen = Math.max(correctClean.length(), userClean.length());
+            int matches = 0;
+            for (int i = 0; i < Math.min(correctClean.length(), userClean.length()); i++) {
+                if (correctClean.charAt(i) == userClean.charAt(i)) matches++;
+            }
+            int accuracy = maxLen > 0 ? (int) Math.round((double) matches / maxLen * 100) : 0;
+            correct = accuracy >= 80;
+
+            int currentAttempts = result.getAttempts();
+            if (currentAttempts >= 20) {
+                return ResponseEntity.badRequest().body(Map.of("error", "Максимум 20 спроб"));
+            }
+            result.setAttempts(currentAttempts + 1);
+
+            if (accuracy > result.getBestAccuracy()) {
+                result.setBestAccuracy(accuracy);
+            }
+
+            result.setCorrect(correct);
+
+        } else {
+            correct = exercise.getCorrectAnswer().trim().equalsIgnoreCase(userAnswer.trim());
+            result.setCorrect(correct);
+        }
+
+        exerciseResultRepository.save(result);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("correct", correct);
+        response.put("attempts", result.getAttempts());
+        response.put("bestAccuracy", result.getBestAccuracy());
+
+        return ResponseEntity.ok(response);
+    }
+
+
 
     private Map<String, String> parsePairs(String input) {
         Map<String, String> map = new HashMap<>();
@@ -260,6 +282,8 @@ public class ExerciseController {
         return ResponseEntity.ok(results);
     }
 
-    
+
+
+
 
 }
