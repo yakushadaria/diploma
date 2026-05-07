@@ -57,32 +57,6 @@ function CoursePage() {
     const [ratingMsg, setRatingMsg] = useState("");
 
 
-    /*
-    useEffect(() => {
-        fetch("http://localhost:8080/api/courses/" + id)
-            .then(res => res.ok ? res.json() : null)
-            .then(data => { if (data) setCourse(data); });
-
-        fetch("http://localhost:8080/api/courses/" + id + "/enrolled", {
-            credentials: "include",
-        })
-            .then(res => { if (!res.ok) return false; return res.json(); })
-            .then(data => setEnrolled(data));
-    }, [id]);
-
-
-
-    fetch("http://localhost:8080/api/courses/" + id + "/rating")
-        .then(res => res.ok ? res.json() : { average: 0, count: 0 })
-        .then(setAvgRating);
-
-    fetch("http://localhost:8080/api/courses/" + id + "/my-rating", {
-        credentials: "include",
-    })
-        .then(res => res.ok ? res.json() : 0)
-        .then(setMyRating);
-*/
-
 
     useEffect(() => {
         let isMounted = true;
