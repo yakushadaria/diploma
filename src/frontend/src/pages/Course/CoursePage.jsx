@@ -5,18 +5,19 @@ import ExerciseBlock from "../../components/Exercise/ExerciseBlock";
 import AddExercise from "../../components/Exercise/AddExercise";
 import TeacherExerciseList from "../../components/Exercise/TeacherExerciseList.jsx";
 import "./CoursePage.css";
+import StarRating from "../../components/StarRating";
 
 
-import engImg from "../../assets/Англійська.jpg";
-import spaImg from "../../assets/Іспанська.jpg";
-import itaImg from "../../assets/Італійська.jpg";
-import fraImg from "../../assets/Французька.jpg";
-import gerImg from "../../assets/Німецька.jpg";
-import chiImg from "../../assets/Китайська.jpg";
-import japImg from "../../assets/Японська.jpg";
-import polImg from "../../assets/Польська.jpg";
-import czhImg from "../../assets/Чеська.jpg";
-import ukrImg from "../../assets/Українська.jpg";
+import engImg from "../../assets/language/Англійська.jpg";
+import spaImg from "../../assets/language/Іспанська.jpg";
+import itaImg from "../../assets/language/Італійська.jpg";
+import fraImg from "../../assets/language/Французька.jpg";
+import gerImg from "../../assets/language/Німецька.jpg";
+import chiImg from "../../assets/language/Китайська.jpg";
+import japImg from "../../assets/language/Японська.jpg";
+import polImg from "../../assets/language/Польська.jpg";
+import czhImg from "../../assets/language/Чеська.jpg";
+import ukrImg from "../../assets/language/Українська.jpg";
 
 const imageMap = {
     "Англійська": engImg,
@@ -51,7 +52,12 @@ function CoursePage() {
     const [expandedLessons, setExpandedLessons] = useState({});
     const [lessonExercisesMap, setLessonExercisesMap] = useState({});
 
+    const [myRating, setMyRating] = useState(0);
+    const [avgRating, setAvgRating] = useState({ average: 0, count: 0 });
+    const [ratingMsg, setRatingMsg] = useState("");
 
+
+    /*
     useEffect(() => {
         fetch("http://localhost:8080/api/courses/" + id)
             .then(res => res.ok ? res.json() : null)
@@ -63,6 +69,62 @@ function CoursePage() {
             .then(res => { if (!res.ok) return false; return res.json(); })
             .then(data => setEnrolled(data));
     }, [id]);
+
+
+
+    fetch("http://localhost:8080/api/courses/" + id + "/rating")
+        .then(res => res.ok ? res.json() : { average: 0, count: 0 })
+        .then(setAvgRating);
+
+    fetch("http://localhost:8080/api/courses/" + id + "/my-rating", {
+        credentials: "include",
+    })
+        .then(res => res.ok ? res.json() : 0)
+        .then(setMyRating);
+*/
+
+
+    useEffect(() => {
+        let isMounted = true;
+
+        const loadData = async () => {
+            try {
+                const courseRes = await fetch("http://localhost:8080/api/courses/" + id);
+                const courseData = await courseRes.json();
+
+                const enrolledRes = await fetch("http://localhost:8080/api/courses/" + id + "/enrolled", {
+                    credentials: "include",
+                });
+                const enrolledData = await enrolledRes.json();
+
+                const ratingRes = await fetch("http://localhost:8080/api/courses/" + id + "/rating");
+                const ratingData = await ratingRes.json();
+
+                const myRatingRes = await fetch("http://localhost:8080/api/courses/" + id + "/my-rating", {
+                    credentials: "include",
+                });
+                const myRatingData = await myRatingRes.json();
+
+                if (isMounted) {
+                    setCourse(courseData);
+                    setEnrolled(enrolledData);
+                    setAvgRating(ratingData);
+                    setMyRating(myRatingData);
+                }
+
+            } catch (e) {
+                console.error("FETCH ERROR:", e);
+            }
+        };
+
+        loadData();
+
+        return () => {
+            isMounted = false;
+        };
+
+    }, [id]);
+
 
     const toggleLesson = async (lesson) => {
         const isExpanded = expandedLessons[lesson.id];
@@ -119,6 +181,41 @@ function CoursePage() {
             setLessonExercisesMap(prev => ({ ...prev, [lessonId]: data }));
         }
     };
+
+
+
+
+
+
+
+    // функция выставления рейтинга
+    const handleRating = async (value) => {
+        const res = await fetch("http://localhost:8080/api/courses/" + id + "/rating", {
+            method: "POST",
+            credentials: "include",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ rating: value }),
+        });
+
+        if (res.ok) {
+            setMyRating(value);
+            setRatingMsg("Дякуємо за оцінку!");
+            fetch("http://localhost:8080/api/courses/" + id + "/rating")
+                .then(r => r.json())
+                .then(setAvgRating);
+            setTimeout(() => setRatingMsg(""), 2000);
+        } else {
+            const text = await res.text();
+            setRatingMsg(text);
+            setTimeout(() => setRatingMsg(""), 3000);
+        }
+    };
+
+
+
+
+
+
 
 
     const getYoutubeEmbedUrl = (url) => {
@@ -257,6 +354,29 @@ function CoursePage() {
                         )}
 
 
+
+                        <div style={{ display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap" }}>
+                            <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                                <StarRating value={Math.round(avgRating.average)} readonly />
+                                <span style={{ fontSize: "13px", color: "#8a6f63" }}>
+            {avgRating.average > 0 ? avgRating.average + " (" + avgRating.count + ")" : "Немає оцінок"}
+        </span>
+                            </div>
+
+                            {user?.role === "STUDENT" && enrolled && (
+                                <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                                    <span style={{ fontSize: "13px", color: "#8a6f63" }}>Ваша оцінка:</span>
+                                    <StarRating value={myRating} onChange={handleRating} />
+                                </div>
+                            )}
+
+                            {ratingMsg && <p style={{ fontSize: "13px", color: "#c47a55" }}>{ratingMsg}</p>}
+                        </div>
+
+
+
+
+
                         {/* список заданий только для учителя */}
                         {user?.role === "TEACHER" && (
                             <div style={{ marginTop: "24px", borderTop: "1px solid #e8ddd2", paddingTop: "16px" }}>
@@ -316,7 +436,7 @@ function CoursePage() {
                     </div>
                 </>
                 </div>
-                
+
             ) : (
                 // для всех остальных — картинка языка
                 <div className="course-lang-sidebar">

@@ -70,7 +70,10 @@ public class SecurityConfig {
 
                                 "/api/exercises/**",
 
-                                "/api/courses/*/progress"
+                                "/api/courses/*/progress",
+
+                                "/api/courses/*/rating",
+                                "/api/courses/*/my-rating"
                         ).permitAll()
                         .anyRequest().authenticated()
                 );

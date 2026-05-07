@@ -36,15 +36,7 @@ public class User {
     private String description;
 
 
-    //
-    @OneToMany(mappedBy = "user")
-    private List<Progress> progresses;
-
-    //
-    @OneToMany(mappedBy = "user")
-    private List<Comment> comments;
-
-
+    
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }

@@ -13,6 +13,8 @@ import NewsCreate from "../../components/Profile/NewsCreate.jsx";
 import ManageLessons from "../../components/Profile/ManageLessons";
 import ProgressPage from "../../pages/Progress/ProgressPage";
 
+import ActiveCourses from "../../components/Profile/ActiveCourses";
+import CompletedCourses from "../../components/Profile/CompletedCourses";
 
 function ProfileContent({ activeTab, setActiveTab }) {
   const { user, logout } = useAuth();
@@ -32,11 +34,11 @@ function ProfileContent({ activeTab, setActiveTab }) {
 
 
 
-      case "active":
-        return <h2>Активні курси</h2>;
+        case "active":
+            return <ActiveCourses />;
 
-      case "completed":
-        return <h2>Завершені курси</h2>;
+        case "completed":
+            return <CompletedCourses />;
 
 
       case "progress":

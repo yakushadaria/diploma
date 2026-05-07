@@ -29,18 +29,7 @@ public class CourseController {
     private final ExerciseRepository exerciseRepository;
     private final ExerciseResultRepository exerciseResultRepository;
 
-
-    /*
-    public CourseController(CourseRepository courseRepository,
-                            EnrollmentRepository enrollmentRepository,
-                            UserRepository userRepository,
-                            CourseService courseService) {
-        this.courseRepository = courseRepository;
-        this.enrollmentRepository = enrollmentRepository;
-        this.userRepository = userRepository;
-        this.courseService = courseService;
-    }
-*/
+    private final CourseRatingRepository courseRatingRepository;
 
 
 
@@ -51,7 +40,8 @@ public class CourseController {
                             CourseService courseService,
                             LessonRepository lessonRepository,
                             ExerciseRepository exerciseRepository,
-                            ExerciseResultRepository exerciseResultRepository) {
+                            ExerciseResultRepository exerciseResultRepository,
+                            CourseRatingRepository courseRatingRepository) {
         this.courseRepository = courseRepository;
         this.enrollmentRepository = enrollmentRepository;
         this.userRepository = userRepository;
@@ -59,6 +49,7 @@ public class CourseController {
         this.lessonRepository = lessonRepository;
         this.exerciseRepository = exerciseRepository;
         this.exerciseResultRepository = exerciseResultRepository;
+        this.courseRatingRepository = courseRatingRepository;
     }
 
 
@@ -306,11 +297,6 @@ public class CourseController {
 
 
 
-
-
-    
-
-
     @GetMapping("/{id}/progress")
     public ResponseEntity<?> getCourseProgress(
             @PathVariable Long id,
@@ -361,6 +347,97 @@ public class CourseController {
 
 
 
+    // получить рейтинг курса
+    @GetMapping("/{id}/rating")
+    public ResponseEntity<?> getRating(@PathVariable Long id) {
+        Course course = courseRepository.findById(id).orElse(null);
+        if (course == null) return ResponseEntity.status(404).body("Not found");
+
+        Double avg = courseRatingRepository.getAverageRating(course);
+        int count = courseRatingRepository.countByCourse(course);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("average", avg != null ? Math.round(avg * 10.0) / 10.0 : 0);
+        result.put("count", count);
+        return ResponseEntity.ok(result);
+    }
+
+
+    // получить рейтинг текущего студента
+    @GetMapping("/{id}/my-rating")
+    public ResponseEntity<?> getMyRating(
+            @PathVariable Long id,
+            @CookieValue(name = "user", required = false) String username
+    ) {
+        if (username == null) return ResponseEntity.ok(0);
+
+        User user = userRepository.findByUsername(username).orElse(null);
+        Course course = courseRepository.findById(id).orElse(null);
+        if (user == null || course == null) return ResponseEntity.ok(0);
+
+        CourseRating rating = courseRatingRepository.findByUserAndCourse(user, course).orElse(null);
+        return ResponseEntity.ok(rating != null ? rating.getRating() : 0);
+    }
+
+
+
+    // выставить рейтинг
+    @PostMapping("/{id}/rating")
+    public ResponseEntity<String> setRating(
+            @PathVariable Long id,
+            @CookieValue(name = "user", required = false) String username,
+            @RequestBody Map<String, Integer> body
+    ) {
+        if (username == null) return ResponseEntity.status(401).body("Not logged in");
+
+        User user = userRepository.findByUsername(username).orElse(null);
+        if (user == null || !user.getRole().equals("STUDENT")) {
+            return ResponseEntity.status(403).body("Access denied");
+        }
+
+        Course course = courseRepository.findById(id).orElse(null);
+        if (course == null) return ResponseEntity.status(404).body("Course not found");
+
+        // проверяем что студент записан
+        if (!enrollmentRepository.existsByUserAndCourse(user, course)) {
+            return ResponseEntity.badRequest().body("Not enrolled");
+        }
+
+        // проверяем что студент прошёл половину тем
+        List<Lesson> lessons = lessonRepository.findByCourseId(id);
+        int totalLessons = lessons.size();
+        if (totalLessons == 0) return ResponseEntity.badRequest().body("No lessons");
+
+        int completedLessons = 0;
+        for (Lesson lesson : lessons) {
+            List<Exercise> exercises = exerciseRepository.findByLesson(lesson);
+            if (exercises.isEmpty()) { completedLessons++; continue; }
+            List<ExerciseResult> results = exerciseResultRepository
+                    .findByUserAndExerciseIn(user, exercises);
+            long correct = results.stream().filter(ExerciseResult::isCorrect).count();
+            if (correct == exercises.size()) completedLessons++;
+        }
+
+        if (completedLessons < totalLessons / 2) {
+            return ResponseEntity.badRequest().body("Потрібно пройти половину курсу");
+        }
+
+        int ratingValue = body.get("rating");
+        if (ratingValue < 1 || ratingValue > 5) {
+            return ResponseEntity.badRequest().body("Rating must be 1-5");
+        }
+
+        CourseRating rating = courseRatingRepository
+                .findByUserAndCourse(user, course)
+                .orElse(new CourseRating());
+
+        rating.setUser(user);
+        rating.setCourse(course);
+        rating.setRating(ratingValue);
+        courseRatingRepository.save(rating);
+
+        return ResponseEntity.ok("Rating saved");
+    }
 
 
 
