@@ -330,6 +330,7 @@ function CoursePage() {
                             lessonId={activeLesson.id}
                             filterType={activeType === "ALL" ? null : activeType}
                             courseLang={course.language?.name}
+                            enrolled={enrolled}
                         />
                     </>
                 ) : (

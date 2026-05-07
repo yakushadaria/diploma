@@ -3,7 +3,7 @@ import "./Sidebar.css";
 const languages = ["Англійська", "Українська", "Іспанська", "Французька", "Німецька", "Чеська", "Польська", "Японська", "Китайська", "Італійська"];
 const levels = ["A1", "A2", "B1", "B2", "C1", "C2"];
 
-function Sidebar({ search, setSearch, filterLang, setFilterLang, filterLevel, setFilterLevel, onReset }) {
+function Sidebar({ search, setSearch, filterLang, setFilterLang, filterLevel, setFilterLevel, filterRating, setFilterRating, onReset }) {
   return (
     <div className="sidebar">
       <h2>Фільтр</h2>
@@ -34,6 +34,21 @@ function Sidebar({ search, setSearch, filterLang, setFilterLang, filterLevel, se
             ))}
         </select>
 
+        <h3>Рейтинг</h3>
+        <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+            {[0, 3, 4, 5].map(r => (
+                <label key={r} style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", fontSize: "14px" }}>
+                    <input
+                        type="radio"
+                        name="rating"
+                        checked={filterRating === r}
+                        onChange={() => setFilterRating(r)}
+                    />
+                    {r === 0 ? "Всі" : "від " + r + " ★"}
+                </label>
+            ))}
+        </div>
+
 
       <button onClick={onReset}>Скинути</button>
 
@@ -45,4 +60,3 @@ export default Sidebar;
 
 
 
-// <button>Застосувати</button>
