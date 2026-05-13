@@ -19,8 +19,6 @@ const languages = [
 const levels = ["A1", "A2", "B1", "B2", "C1", "C2"];
 
 
-
-
 function AddCourse() {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
@@ -239,11 +237,3 @@ export default AddCourse;
 
 
 
-/*
-<textarea
-    value={lesson.content}
-    onChange={(e) => updateLesson(index, "content", e.target.value)}
-    placeholder="Опис теми"
-    rows={3}
-/>
- */

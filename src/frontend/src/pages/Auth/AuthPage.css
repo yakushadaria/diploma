@@ -19,13 +19,13 @@
 
   display: flex;
   flex-direction: column;
-  gap: 14px; /* 👈 ВАЖНО: восстановили вертикальный ритм */
+  gap: 14px;
 }
 
 .auth-card form {
   display: flex;
   flex-direction: column;
-  gap: 12px; /* 👈 расстояние между input */
+  gap: 12px;
 }
 
 .auth-card input {

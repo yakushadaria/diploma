@@ -22,14 +22,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     // вход (почта + пароль || username + пароль)
     Optional<User> findByUsernameOrEmail(String username, String email);
 
-
-
-
  @Modifying
  @Transactional
  @Query("DELETE FROM User u WHERE u.username = :username")
  void deleteByUsername(@Param("username") String username);
-
-
 
 }

@@ -34,9 +34,7 @@ public class Lesson {
     @OneToMany(mappedBy = "lesson")
     private List<Exercise> exercises;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "lesson")
-    private List<Comment> comments;
+
 
     private String videoUrl;
 
@@ -59,6 +57,5 @@ public class Lesson {
     public List<Exercise> getExercises() { return exercises; }
     public void setExercises(List<Exercise> exercises) { this.exercises = exercises; }
 
-    public List<Comment> getComments() { return comments; }
-    public void setComments(List<Comment> comments) { this.comments = comments; }
+
 }

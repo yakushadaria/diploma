@@ -35,14 +35,22 @@ function Sidebar({ search, setSearch, filterLang, setFilterLang, filterLevel, se
         </select>
 
         <h3>Рейтинг</h3>
-        <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+        <div style={{ display: "flex",
+            gap: "3px",
+            cursor: "pointer",
+            fontSize: "18px", flexDirection: "column", }}>
             {[0, 3, 4, 5].map(r => (
-                <label key={r} style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", fontSize: "14px" }}>
+                <label key={r} style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", fontSize: "18px" }}>
                     <input
                         type="radio"
                         name="rating"
                         checked={filterRating === r}
                         onChange={() => setFilterRating(r)}
+                        style={{
+                            width: "20px",
+                            height: "20px",
+                            margin: "0",
+                        }}
                     />
                     {r === 0 ? "Всі" : "від " + r + " ★"}
                 </label>

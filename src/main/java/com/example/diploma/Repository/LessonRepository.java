@@ -12,7 +12,6 @@ import java.util.List;
 public interface LessonRepository extends JpaRepository<Lesson, Long> {
 
     List<Lesson> findByCourseId(Long courseId);
-    int countByCourseId(Long courseId);
 
     @Modifying
     @Transactional

@@ -22,18 +22,10 @@
     backdrop-filter: blur(6px);
 
 
-    margin: 40px auto;  /* 👈 центрирует по горизонтали */
+    margin: 40px auto;
     background: #fff8f0;
     font-family: Ebrima;
 }
-
-
-
-
-
-
-
-
 
 
 .features-grid {
@@ -66,11 +58,6 @@
 .feature-icon {
     font-size: 32px;
 }
-
-
-
-
-
 
 
 .rules-list {
@@ -145,7 +132,7 @@
 }
 
 .rules-content ol {
-    list-style: none;   /* убирает стандартные цифры от списка */
+    list-style: none;
     margin: 0;
     padding: 0;
 }

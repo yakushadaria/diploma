@@ -82,8 +82,8 @@ function AboutPage() {
 
                     <div className="col">
                         <h4>Email</h4>
-                        <p>support@linguallearn.com</p>
-                        <p>admin@linguallearn.com</p>
+                        <p>support@cozylingua.com</p>
+                        <p>admin@cozylingua.com</p>
                     </div>
                 </div>
 
@@ -92,7 +92,7 @@ function AboutPage() {
                         Telegram:
                         <a href= "https://t.me/ddd_yk" target="_blank" rel="noreferrer"> @ddd_yk</a>
                     </p>
-                    <p>© 2026 LinguaLearn. Всі права захищені.</p>
+                    <p>© 2026 CozyLingua. Всі права захищені.</p>
                 </div>
                 </section>
         </div>

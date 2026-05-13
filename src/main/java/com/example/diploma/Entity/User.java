@@ -36,12 +36,8 @@ public class User {
     private String description;
 
 
-    
-
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
-
-
 
     public String getUsername() {
         return username;
@@ -60,7 +56,6 @@ public class User {
     }
 
 
-
     public String getEmail() {
         return email;
     }
@@ -69,11 +64,9 @@ public class User {
         this.email = email;
     }
 
-
     public String getRole() { return role; }
 
     public void setRole(String role) { this.role = role; }
-
 
     public String getAvatar() {
         return avatar;
@@ -83,7 +76,6 @@ public class User {
         this.avatar = avatar;
     }
 
-
     public String getDescription() {
         return description;
     }
@@ -91,6 +83,5 @@ public class User {
     public void setDescription(String description) {
         this.description = description;
     }
-
 
 }

@@ -3,7 +3,7 @@
   justify-content: center;
   align-items: center;
 
-  /* 🔥 более контрастный тёплый цвет */
+
   background: linear-gradient(90deg, #3b2f2a, #2a211e);
 
   padding: 14px 0;
@@ -21,7 +21,7 @@
 .link {
   position: relative;
 
-  color: #fff7f0; /* светлый кремовый текст */
+  color: #fff7f0;
   text-decoration: none;
   font-size: 26px;
 
@@ -45,7 +45,7 @@
   width: 0%;
   height: 2px;
 
-  background: #c47a55; /* твой основной акцент */
+  background: #c47a55;
   transition: width 0.3s ease;
 }
 

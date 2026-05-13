@@ -219,8 +219,8 @@
     height: 805px;
     min-width: 160px;
 
-    position: sticky;   /* 🔥 закрепление при скролле */
-    top: 1px;          /* где она “прилипает” */
+    position: sticky;
+    top: 1px;
 
 
     border-left: 1px solid #e8ddd2;
@@ -243,14 +243,6 @@
     border-top-left-radius: 16px;
     border-top-right-radius: 16px;
 }
-
-
-
-
-
-
-
-
 
 
 

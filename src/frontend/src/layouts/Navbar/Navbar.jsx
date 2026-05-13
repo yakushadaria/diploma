@@ -35,12 +35,6 @@ function Navbar() {
 
 
 
-
-
-        {user?.role === 'ADMIN' && (
-          <Link className="link" to="/admin">Користувачі</Link>
-        )}
-
         {user && (
           <Link className="link" to="/profile">Мій профіль</Link>
         )}

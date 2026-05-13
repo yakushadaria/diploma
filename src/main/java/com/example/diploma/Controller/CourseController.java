@@ -165,7 +165,7 @@ public class CourseController {
             return ResponseEntity.badRequest().body("Курс закрито");
         }
 
-        // ← проверка лимита для студента
+        // проверка лимита для студента
         if (enrollmentRepository.countByUser(user) >= 25) {
             return ResponseEntity.badRequest().body("Max 25 courses allowed");
         }
@@ -339,11 +339,6 @@ public class CourseController {
 
         return ResponseEntity.ok(progress);
     }
-
-
-
-
-
 
 
 

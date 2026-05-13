@@ -13,7 +13,7 @@ export const sidebarItems = {
       items: [
         { id: "active", label: "Активні курси" },
         { id: "completed", label: "Завершені курси" },
-        { id: "progress", label: "Перегляд прогресу" },
+
       ],
     },
     {

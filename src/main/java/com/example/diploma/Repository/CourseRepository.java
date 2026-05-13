@@ -14,12 +14,8 @@ import java.util.List;
 
 public interface CourseRepository extends JpaRepository<Course, Long> {
 
-
     List<Course> findByTeacher(User teacher);
     int countByTeacher(User teacher);
-
-
-
 
 
     // для удаления курса (препод только свои)
@@ -37,9 +33,5 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
     @Transactional
     @Query(value = "DELETE FROM course WHERE id = :id", nativeQuery = true)
     void deleteCourseById(@Param("id") Long id);
-
-
-
-
 
 }

@@ -93,12 +93,7 @@ function MatchExercise({ exercise, onAnswer, result }) {
         onAnswer(answer);
     };
 
-    /*
-    const isCorrect = (left) => {
-        const correct = pairs.find(p => p.left === left);
-        return matches[left] === correct?.right;
-    };
-*/
+
 
     const isCorrect = (left) => {
         if (!result) return null;
