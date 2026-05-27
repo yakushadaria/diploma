@@ -128,7 +128,9 @@ function MatchExercise({ exercise, onAnswer, result }) {
                                 display: "flex",
                                 justifyContent: "space-between",
                                 alignItems: "center",
-                                fontSize: "14px",
+                                fontSize: "16px",
+
+
                             }}
                         >
                             <span>{left}</span>
@@ -151,7 +153,9 @@ function MatchExercise({ exercise, onAnswer, result }) {
                                 border: "1px solid #e8ddd2",
                                 background: "white",
                                 cursor: result ? "default" : "grab",
-                                fontSize: "14px",
+                                fontSize: "16px",
+                                minHeight: "40px",
+                                lineHeight: "40px",
                                 opacity: Object.values(matches).includes(right) ? 0.4 : 1,
                             }}
                         >
@@ -231,7 +235,7 @@ function SpeakingExercise({ exercise, onAnswer, result, language }) {
         if (attempts >= 20) { setError("Ви вичерпали всі 20 спроб"); return; }
 
         if (!("webkitSpeechRecognition" in window) && !("SpeechRecognition" in window)) {
-            setError("Ваш браузер не підтримує розпізнавання мови. Використовуйте Chrome.");
+            setError("Ваш браузер не підтримує розпізнавання мови. Використовуйте Chrome");
             return;
         }
 
@@ -422,7 +426,7 @@ export default function ExerciseBlock({ lessonId, filterType = null, courseLang,
                             padding: "18px",
                         }}
                     >
-                        <p style={{ fontWeight: "600", marginBottom: "14px", fontSize: "15.5px" }}>
+                        <p style={{ fontWeight: "600", marginBottom: "14px", fontSize: "17.5px" }}>
                             {i + 1}. {exercise.question}
                         </p>
 

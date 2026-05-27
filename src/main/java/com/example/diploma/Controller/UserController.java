@@ -117,29 +117,6 @@ public class UserController {
 
 
     // Удаление пользователя по username (только АДМИН)
-    /*
-    @DeleteMapping("/delete/{username}")
-    public ResponseEntity<String> deleteUser(
-            @CookieValue(name = "user", required = false) String currentUsername,
-            @PathVariable String username
-    ) {
-        if (currentUsername == null) return ResponseEntity.status(401).body("Not logged in");
-
-        User currentUser = userService.findByUsername(currentUsername);
-        if (currentUser == null || !currentUser.getRole().equals("ADMIN")) {
-            return ResponseEntity.status(403).body("Access denied");
-        }
-
-        if (currentUsername.equals(username)) {
-            return ResponseEntity.badRequest().body("Не можна видалити себе");
-        }
-
-        String result = userService.deleteUser(username);
-        if (result.equals("OK")) return ResponseEntity.ok("User deleted");
-        return ResponseEntity.badRequest().body(result);
-    }
-
-     */
     @DeleteMapping("/delete/{username}")
     public ResponseEntity<String> deleteUser(
             @CookieValue(name = "user", required = false) String currentUsername,

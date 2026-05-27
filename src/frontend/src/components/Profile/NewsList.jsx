@@ -74,7 +74,7 @@ function NewsList() {
                             <p className="news-content">{item.content}</p>
 
                             {user?.role === "ADMIN" && (
-                                <div className="news-actions">
+                                <div className="news-actions-buttons">
                                     <button onClick={() => {
                                         setEditingItem(item);
                                         setShowForm(true);

@@ -112,28 +112,6 @@ public class CourseService {
 
 
     // препод иожет удалить сам свой курс
-    /*
-    @Transactional
-    public String deleteCourse(String username, Long courseId) {
-        User teacher = userRepository.findByUsername(username).orElse(null);
-        if (teacher == null) return "User not found";
-
-        Course course = courseRepository.findById(courseId).orElse(null);
-        if (course == null) return "Course not found";
-
-        if (course.getTeacher() == null || !course.getTeacher().getUsername().equals(username)) {
-            return "Access denied";
-        }
-
-        courseRepository.deleteEnrollmentsByCourseId(courseId);
-        courseRepository.deleteLessonsByCourseId(courseId);
-        courseRepository.deleteCourseById(courseId);
-        return "OK";
-    }
-
-     */
-
-
     @Transactional
     public String deleteCourse(String username, Long courseId) {
         User user = userRepository.findByUsername(username).orElse(null);

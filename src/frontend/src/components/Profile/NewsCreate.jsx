@@ -102,11 +102,15 @@ function NewsForm({ onSuccess, editingItem, onCancel }) {
 
             <input type="file" accept="image/*" onChange={handleImageChange} />
 
-            <button onClick={handleSubmit}>
-                {editingItem ? "Зберегти зміни" : "Опублікувати"}
-            </button>
+            <div className="news-form-buttons">
+                <button onClick={handleSubmit}>
+                    {editingItem ? "Зберегти зміни" : "Опублікувати"}
+                </button>
 
-            <button onClick={onCancel}>Скасувати</button>
+                <button onClick={onCancel}>
+                    Скасувати
+                </button>
+            </div>
 
             {msg && <p>{msg}</p>}
         </div>
