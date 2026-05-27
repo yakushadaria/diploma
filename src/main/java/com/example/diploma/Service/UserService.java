@@ -3,6 +3,7 @@ package com.example.diploma.Service;
 
 import com.example.diploma.Entity.User;
 import com.example.diploma.Repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -143,10 +144,22 @@ public class UserService {
 
 
     // Удаление пользователя
+    @Transactional
     public String deleteUser(String username) {
         User user = userRepository.findByUsername(username).orElse(null);
         if (user == null) return "User not found";
+
+        Long id = user.getId();
+
+        userRepository.deleteUserRoles(id);
+        userRepository.deleteUserEnrollments(id);
+        userRepository.deleteUserRatings(id);
+        userRepository.deleteUserExerciseResults(id);
+        userRepository.deleteUserProgress(id);
+        userRepository.deleteProgress(id);
+        userRepository.detachTeacherFromCourses(id); // не удаляем курсы, просто отвязываем учителя
         userRepository.deleteByUsername(username);
+
         return "OK";
     }
 
@@ -160,8 +173,5 @@ public class UserService {
         userRepository.save(user);
         return "OK";
     }
-
-
-
 
 }

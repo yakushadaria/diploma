@@ -60,10 +60,8 @@ function ProfileContent({ activeTab, setActiveTab }) {
 
 
 
-
         case "delete-course":
-            return <DeleteCourse />;
-
+            return <DeleteCourse role={user?.role} />;
 
 
 

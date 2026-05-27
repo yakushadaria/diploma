@@ -87,9 +87,13 @@ function AddCourse() {
 
     return (
         <div className="add-course-page">
-            <h2 className="profile-title">Додати курс</h2>
 
-            <div className="profile-card add-course-card">
+            <h2 style={{ marginTop: "-10px" }}>Додати курс</h2>
+
+            <div className="profile-card add-course-card"
+                 style={{
+                     width: "800px",
+                 }}>
                 <input
                     className="course-title-input"
                     value={title}

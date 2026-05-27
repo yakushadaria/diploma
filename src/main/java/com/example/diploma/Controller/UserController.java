@@ -1,14 +1,11 @@
 package com.example.diploma.Controller;
 
 import com.example.diploma.Entity.User;
-import com.example.diploma.Service.CourseService;
+
 import com.example.diploma.Service.UserService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -120,6 +117,7 @@ public class UserController {
 
 
     // Удаление пользователя по username (только АДМИН)
+    /*
     @DeleteMapping("/delete/{username}")
     public ResponseEntity<String> deleteUser(
             @CookieValue(name = "user", required = false) String currentUsername,
@@ -139,6 +137,29 @@ public class UserController {
         String result = userService.deleteUser(username);
         if (result.equals("OK")) return ResponseEntity.ok("User deleted");
         return ResponseEntity.badRequest().body(result);
+    }
+
+     */
+    @DeleteMapping("/delete/{username}")
+    public ResponseEntity<String> deleteUser(
+            @CookieValue(name = "user", required = false) String currentUsername,
+            @PathVariable String username
+    ) {
+        if (currentUsername == null)
+            return ResponseEntity.status(401).body("Not logged in");
+
+        User currentUser = userService.findByUsername(currentUsername);
+        if (currentUser == null || !currentUser.getRole().equals("ADMIN"))
+            return ResponseEntity.status(403).body("Access denied");
+
+        if (currentUsername.equals(username))
+            return ResponseEntity.badRequest().body("Нельзя удалить себя");
+
+        String result = userService.deleteUser(username);
+
+        return result.equals("OK")
+                ? ResponseEntity.ok("User deleted")
+                : ResponseEntity.badRequest().body(result);
     }
 
 

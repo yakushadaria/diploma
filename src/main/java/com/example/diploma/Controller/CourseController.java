@@ -436,4 +436,18 @@ public class CourseController {
 
 
 
+
+
+
+    @GetMapping("/search")
+    public ResponseEntity<?> searchCourses(@RequestParam String query) {
+        List<Course> courses = courseRepository.findAll()
+                .stream()
+                .filter(Course::isActive)
+                .filter(c -> c.getTitle().toLowerCase().contains(query.toLowerCase()))
+                .toList();
+        return ResponseEntity.ok(courses);
+    }
+
+
 }

@@ -264,7 +264,7 @@ function CoursePage() {
                 {!activeLesson ? (
                     <>
                         <h1 className="course-title">{course.title}</h1>
-                        <div style={{ display: "flex", alignItems: "center", gap: "16px", flexWrap: "wrap" }}>
+                        <div style={{ display: "flex" }}>
                             <p className="course-lang">{course.language?.name} · {course.level}</p>
                             {user?.role === "STUDENT" && (
                                 <>
@@ -312,7 +312,7 @@ function CoursePage() {
                     <>
                         <h1 className="course-title">{activeLesson.title}</h1>
 
-                        <div className="lesson-content"
+                        <div className="lesson-content" style={{ padding: "20px" }}
                              dangerouslySetInnerHTML={{ __html: activeLesson.content }}
                         />
 

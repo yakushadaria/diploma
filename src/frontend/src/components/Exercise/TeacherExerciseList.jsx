@@ -33,8 +33,6 @@ function TeacherExerciseList({ lessonId }) {
     };
 
 
-    if (exercises.length === 0) return <p style={{ fontSize: "17px", color: "#8a6f63" }}>Завдань поки немає</p>;
-
     return (
         <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
             {exercises.map((ex, i) => (

@@ -277,10 +277,10 @@ function SpeakingExercise({ exercise, onAnswer, result, language }) {
     };
 
     return (
-        <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-            <div style={{ background: "#fdf0ff", border: "1px solid #d4a0f0", borderRadius: "10px", padding: "12px 16px" }}>
-                <p style={{ fontSize: "13px", color: "#8a6f63", marginBottom: "4px" }}>Вимовте:</p>
-                <p style={{ fontSize: "16px", fontWeight: "600", color: "#2f2a26" }}>{exercise.correctAnswer}</p>
+        <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+            <div style={{ background: "#fdf0ff", border: "1px solid #d4a0f0", borderRadius: "10px", padding: "10px 12px" }}>
+                <p style={{ fontSize: "17px", color: "#8a6f63", marginBottom: "2px" }}>Вимовте:</p>
+                <p style={{ fontSize: "17px", fontWeight: "600", color: "#2f2a26" }}>{exercise.correctAnswer}</p>
             </div>
 
             <button
@@ -298,13 +298,13 @@ function SpeakingExercise({ exercise, onAnswer, result, language }) {
                     width: "fit-content",
                     display: "flex",
                     alignItems: "center",
-                    gap: "8px",
+                    gap: "4px",
                 }}
             >
                 {listening ? "🎤 Слухаю..." : attempts >= 20 ? "🎤 Спроби вичерпано" : "🎤 Говорити"}
             </button>
 
-            <p style={{ fontSize: "13px", color: "#8a6f63" }}>
+            <p style={{ fontSize: "14px", color: "#8a6f63" }}>
                 Спроби: {attempts}/20
             </p>
 

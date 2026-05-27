@@ -96,18 +96,26 @@ function AddExercise({ lessonId, onAdded }) {
                             padding: "16px",
                             cursor: "pointer",
                             transition: "0.2s",
+
                             display: "flex",
-                            alignItems: "center",
+                            flexDirection: "column",
+                            justifyContent: "center",
+
                             gap: "20px",
-                            minWidth: "180px",
+
+                            width: "320px",
+                            height: "120px",
+
                             background: "#2a211e",
+                            boxSizing: "border-box",
+
                         }}
                         onMouseEnter={e => e.currentTarget.style.opacity = "0.85"}
                         onMouseLeave={e => e.currentTarget.style.opacity = "1"}
                     >
                         <div>
-                            <p style={{ fontWeight: "600", fontSize: "14px", color: "#fff" }}>{t.label}</p>
-                            <p style={{ fontSize: "13px", color: "#fff", marginTop: "2px" }}>{t.desc}</p>
+                            <p style={{ fontWeight: "600", fontSize: "17px", color: "#fff" }}>{t.label}</p>
+                            <p style={{ fontSize: "15px", color: "#fff", marginTop: "2px" }}>{t.desc}</p>
                         </div>
                     </div>
                 ))}
@@ -185,10 +193,10 @@ function AddExercise({ lessonId, onAdded }) {
 
                         {selected.type === "MATCH" && (
                             <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-                                <p style={{ fontSize: "12px", color: "#8a6f63" }}>
+                                <p style={{ fontSize: "13px", color: "#8a6f63" }}>
                                     Пари (формат: слово=переклад, через кому):
                                 </p>
-                                <p style={{ fontSize: "11px", color: "#8a6f63" }}>
+                                <p style={{ fontSize: "13px", color: "#8a6f63" }}>
                                     Приклад: cat=кіт, dog=пес, bird=птах
                                 </p>
                                 <textarea

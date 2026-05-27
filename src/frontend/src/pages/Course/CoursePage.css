@@ -38,6 +38,7 @@
     transition: .2s;
     position: relative;
     user-select: none;
+
 }
 
 .course-lesson-item:hover {
@@ -67,8 +68,11 @@
     padding: 20px;
     display: flex;
     flex-direction: column;
-
+    line-height: 1.8;
+    text-indent: 30px;
     box-sizing: border-box;
+    font-size: 18px;
+    text-align: justify;
 }
 
 
@@ -93,17 +97,19 @@
     color: #000;
     background: rgba(196, 122, 85, .1);
     display: inline-flex;
-    padding: 12px 30px;
+    padding: 10px 20px;
     border-radius: 999px;
     width: fit-content;
-
+    text-align: center;
     margin-bottom: 18px;
+    align-items: center;
+    justify-content: center;
+
 }
 
 
 
 .btn-enroll {
-    height: 42px;
     padding: 0 24px;
     background: #c47a55;
     color: #fff;
@@ -113,6 +119,10 @@
     font-weight: 500;
     cursor: pointer;
     transition: .2s;
+    margin-top: 25px;
+    width: 300px;
+    height: 42px;
+    margin-left: 20px;
 }
 .btn-enroll:hover {
     background: #b06846;
@@ -120,7 +130,7 @@
 }
 
 .btn-unenroll {
-    height: 42px;
+    height: 45px;
     padding: 0 24px;
     background: transparent;
     color: #c44a4a;
@@ -130,7 +140,11 @@
     font-weight: 500;
     cursor: pointer;
     transition: .2s;
+    width: 300px;
+    margin-top: 23px;
+    margin-left: 20px;
 }
+
 .btn-unenroll:hover {
     background: #fff0f0;
 }
@@ -184,7 +198,10 @@
     background: #f0faf0;
     border: 1px solid #c8e6c8;
     color: #4a8a4a;
-    width: fit-content;
+    width: 300px;
+    height: 30px;
+    margin-left: 40px;
+    margin-top: 23px;
 }
 
 
