@@ -1,6 +1,6 @@
 import {useState} from "react";
 
-function StarRating({ value, onChange, readonly = false }) {
+function StarRating({ value, onChange, readonly = false, size = "17px" }) {
     const [hover, setHover] = useState(0);
 
     return (
@@ -12,7 +12,7 @@ function StarRating({ value, onChange, readonly = false }) {
                     onMouseEnter={() => !readonly && setHover(star)}
                     onMouseLeave={() => !readonly && setHover(0)}
                     style={{
-                        fontSize: "18px",
+                        fontSize: size,
                         cursor: readonly ? "default" : "pointer",
                         color: star <= (hover || value) ? "#f5a623" : "#e8ddd2",
                         transition: "color 0.15s",

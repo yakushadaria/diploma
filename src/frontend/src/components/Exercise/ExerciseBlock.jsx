@@ -398,7 +398,7 @@ export default function ExerciseBlock({ lessonId, filterType = null, courseLang,
         }
     };
 
-    if (exercises.length === 0) return <p style={{ fontSize: "13px", color: "#8a6f63" }}>Завдань поки немає</p>;
+    if (exercises.length === 0) return <p style={{ fontSize: "19px", marginLeft:"15px", color: "#8a6f63" }}>Завдань поки немає</p>;
 
     // студент не записан — показываем заглушку
     if (user.role === "STUDENT" && !enrolled) {

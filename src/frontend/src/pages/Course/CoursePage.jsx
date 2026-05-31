@@ -37,6 +37,7 @@ const typeLabels = {
     "FILL_WORD": "Вписати слово",
     "TRANSLATE": "Переклад",
     "SPEAKING": "Говоріння",
+    "MATCH": "Зіставлення",
 };
 
 
@@ -253,6 +254,19 @@ function CoursePage() {
                                         {typeLabels[type] || type}
                                     </div>
                                 ))}
+
+
+
+                                {/* ✅ НОВА ВКЛАДКА — тільки для останнього заняття */}
+                                {i === course.lessons.length - 1 && (
+                                    <div
+                                        className={`course-lesson-item ${activeLesson?.id === lesson.id && activeType === "RATING" ? "active" : ""}`}
+                                        style={{ fontSize: "16px" }}
+                                        onClick={() => handleSelectType(lesson, "RATING")}
+                                    >
+                                        ⭐ Рейтинг
+                                    </div>
+                                )}
                             </div>
                         )}
                     </div>
@@ -284,21 +298,81 @@ function CoursePage() {
                                 {course.lessons && course.lessons.map((lesson) => (
                                     <li key={lesson.id}>
                                         <strong>{lesson.title}</strong>
-                                        <p>{lesson.content}</p>
+                                        <p dangerouslySetInnerHTML={{ __html: lesson.content }} />
                                     </li>
                                 ))}
                             </ol>
                         </div>
                     </>
-                ) : activeType ? (
-                    // показываем задания выбранного типа
+
+
+                ) : activeType === "RATING" ? (
                     <>
+
+
+
+                        <div style={{ background: "#fffaf5",
+                            border: "1px solid #e8ddd2",
+                            borderRadius: "14px",
+                            padding: "30px",
+                            maxWidth: "800px",
+                            height:"230px",
+                            marginLeft: "75px",
+                            marginTop:"150px"
+                            }}>
+
+                            <h3
+                                style={{
+                                    marginTop: "0",
+                                    marginBottom: "15px",
+                                    textAlign: "center"
+                                }}
+                            >
+                                Оцініть, будь ласка, якість курсу
+                            </h3>
+
+                            <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "20px", marginTop: "30px", fontSize: "18px", color: "#8a6f63" }}>Поточна оцінка:
+                                <StarRating value={Math.round(avgRating.average)} readonly size="32px" />
+                                <span style={{ fontSize: "17px", color: "#8a6f63" }}>
+                        {avgRating.average > 0 ? avgRating.average + " (" + avgRating.count + " оцінок)" : "Ще немає оцінок"}
+                    </span>
+                            </div>
+
+                            {user?.role === "STUDENT" && enrolled && (
+                                <div>
+                                    <p style={{ fontSize: "18px", color: "#8a6f63", marginBottom: "8px" }}>Ваша оцінка:</p>
+                                    <div style={{ display: "flex", justifyContent: "center" }}>
+                                        <StarRating value={myRating} onChange={handleRating} size="32px"/>
+                                    </div>
+
+                                </div>
+                            )}
+
+                            {user?.role === "STUDENT" && !enrolled && (
+                                <p style={{ fontSize: "17px", color: "#8a6f63" }}>
+                                    Приєднайтесь до курсу, щоб залишити оцінку
+                                </p>
+                            )}
+
+                            {ratingMsg && (
+                                <p style={{ fontSize: "18px", color: "#c47a55", marginTop: "30px" }}>{ratingMsg}</p>
+                            )}
+                        </div>
+
+
                         <button
                             onClick={() => setActiveType(null)}
-                            style={{ background: "none", border: "none", cursor: "pointer", color: "#c47a55", fontSize: "14px", marginBottom: "16px" }}
+                            style={{ background: "none", border: "none", cursor: "pointer", color: "#c47a55", fontSize: "18px", marginBottom: "16px", marginTop:"60px" }}
                         >
                             ← Назад до заняття
                         </button>
+                    </>
+
+
+                ) : activeType ? (
+                    // показываем задания выбранного типа
+                    <>
+
                         <h1 className="course-title">{activeType === "ALL" ? "Всі завдання" : typeLabels[activeType]}</h1>
                         <ExerciseBlock
                             lessonId={activeLesson.id}
@@ -306,6 +380,13 @@ function CoursePage() {
                             courseLang={course.language?.name}
                             enrolled={enrolled}
                         />
+
+                        <button
+                            onClick={() => setActiveType(null)}
+                            style={{ background: "none", border: "none", cursor: "pointer", color: "#c47a55", fontSize: "18px", marginBottom: "16px",  marginTop:"60px" }}
+                        >
+                            ← Назад до заняття
+                        </button>
                     </>
                 ) : (
                     // показываем урок
@@ -330,23 +411,7 @@ function CoursePage() {
 
 
 
-                        <div style={{ display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap" }}>
-                            <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                                <StarRating value={Math.round(avgRating.average)} readonly />
-                                <span style={{ fontSize: "13px", color: "#8a6f63" }}>
-            {avgRating.average > 0 ? avgRating.average + " (" + avgRating.count + ")" : "Немає оцінок"}
-        </span>
-                            </div>
 
-                            {user?.role === "STUDENT" && enrolled && (
-                                <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                                    <span style={{ fontSize: "13px", color: "#8a6f63" }}>Ваша оцінка:</span>
-                                    <StarRating value={myRating} onChange={handleRating} />
-                                </div>
-                            )}
-
-                            {ratingMsg && <p style={{ fontSize: "13px", color: "#c47a55" }}>{ratingMsg}</p>}
-                        </div>
 
 
 

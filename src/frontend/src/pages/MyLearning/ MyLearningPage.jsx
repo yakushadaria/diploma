@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext.jsx";
 import { Link } from "react-router-dom";
+import CourseCard from "../../components/CourseCard/CourseCard.jsx";
+import "./MyLearningPage.css";
 
 function MyLearningPage() {
     const { user } = useAuth();
@@ -23,13 +25,17 @@ function MyLearningPage() {
             {courses.length === 0 && <p>Ви ще не записані на жоден курс</p>}
             <div className="grid">
                 {courses.map(course => (
-                    <Link key={course.id} to={"/course/" + course.id} style={{ textDecoration: "none", color: "inherit" }}>
-                        <div className="card">
-                            <h2>{course.title}</h2>
-                            <p>{course.description}</p>
-                        </div>
-                    </Link>
-                ))}
+                    <div key={course.id} style={{ position: "relative" }}>
+                        <CourseCard
+                            id={course.id}
+                            title={course.title}
+                            language={course.language?.name || ""}
+                            level={course.level || ""}
+                            description={course.description}
+                            teacher={course.teacher?.username || ""}
+                        />
+                    </div>
+                    ))}
             </div>
         </div>
     );

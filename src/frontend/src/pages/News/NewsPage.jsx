@@ -48,6 +48,8 @@ function NewsPage() {
     }, []);
 
     return (
+        <div className="news-page-wrapper">
+
         <div className="news-layout">
 
             {/* LEFT - NEWS */}
@@ -104,6 +106,43 @@ function NewsPage() {
             </div>
 
         </div>
+
+
+    <section className="about-contacts">
+        <div className="contacts-columns">
+            <div className="col">
+                <h4>Графік роботи</h4>
+                <p>Пн – Пт: 09:00 – 18:00</p>
+                <p>Сб – Нд: 10:00 – 12:00</p>
+            </div>
+
+            <div className="col">
+                <h4>Телефони</h4>
+                <p>+380 44 123 45 67</p>
+                <p>+380 67 987 65 43</p>
+            </div>
+
+            <div className="col">
+                <h4>Email</h4>
+                <p>support@cozylingua.com</p>
+                <p>admin@cozylingua.com</p>
+            </div>
+        </div>
+
+        <div className="contacts-bottom">
+            <p>
+                Telegram:
+                <a href="https://t.me/ddd_yk" target="_blank" rel="noreferrer">
+                    @ddd_yk
+                </a>
+            </p>
+            <p>© 2026 CozyLingua. Всі права захищені.</p>
+        </div>
+    </section>
+
+
+        </div>
+
     );
 }
 
