@@ -13,7 +13,7 @@ function Navbar() {
         <Link className="link" to="/news">Новини</Link>
 
         {!user && (
-        <Link className="link" to="/about">О платформе</Link>
+        <Link className="link" to="/about">Про платформу</Link>
         )}
 
         {user?.role === 'TEACHER' && (

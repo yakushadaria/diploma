@@ -27,4 +27,13 @@ public interface EnrollmentRepository extends JpaRepository<Enrollment, Long> {
     int countByUser(User user);
 
     int countByCourse(Course course);
+
+
+
+
+    // EnrollmentRepository
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM enrollment WHERE course_id = :courseId", nativeQuery = true)
+    void deleteByCourseId(@Param("courseId") Long courseId);
 }

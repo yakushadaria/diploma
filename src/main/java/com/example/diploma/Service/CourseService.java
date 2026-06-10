@@ -2,10 +2,7 @@ package com.example.diploma.Service;
 
 import com.example.diploma.Entity.*;
 import com.example.diploma.Entity.Course;
-import com.example.diploma.Repository.CourseRepository;
-import com.example.diploma.Repository.LanguageRepository;
-import com.example.diploma.Repository.LessonRepository;
-import com.example.diploma.Repository.UserRepository;
+import com.example.diploma.Repository.*;
 
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -21,16 +18,27 @@ public class CourseService {
     private final LessonRepository lessonRepository;
     private final UserRepository userRepository;
 
-    private  final LanguageRepository languageRepository;
+    private final LanguageRepository languageRepository;
+
+
+    private final ExerciseResultRepository exerciseResultRepository;
+    private final EnrollmentRepository enrollmentRepository;
+    private final ExerciseRepository exerciseRepository;
 
     public CourseService(CourseRepository courseRepository,
                          LessonRepository lessonRepository,
                          UserRepository userRepository,
-                         LanguageRepository languageRepository) {
+                         LanguageRepository languageRepository,
+                         ExerciseResultRepository exerciseResultRepository,
+                         EnrollmentRepository enrollmentRepository,
+                         ExerciseRepository exerciseRepository) {
         this.courseRepository = courseRepository;
         this.lessonRepository = lessonRepository;
         this.userRepository = userRepository;
         this.languageRepository = languageRepository;
+        this.exerciseResultRepository = exerciseResultRepository;
+        this.enrollmentRepository = enrollmentRepository;
+        this.exerciseRepository = exerciseRepository;
     }
 
 
@@ -128,9 +136,14 @@ public class CourseService {
             return "Access denied";
         }
 
-        courseRepository.deleteEnrollmentsByCourseId(courseId);
-        courseRepository.deleteLessonsByCourseId(courseId);
+        exerciseResultRepository.deleteByCourseId(courseId);    // exercise_result
+        courseRepository.deleteUserProgressByCourseId(courseId);
+        courseRepository.deleteCourseRatingByCourseId(courseId);
+        exerciseRepository.deleteExercisesByCourseId(courseId); // exercise 
+        lessonRepository.deleteByCourseId(courseId);
+        enrollmentRepository.deleteByCourseId(courseId);
         courseRepository.deleteCourseById(courseId);
+
         return "OK";
     }
 

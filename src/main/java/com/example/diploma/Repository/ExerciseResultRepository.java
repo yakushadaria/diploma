@@ -21,4 +21,9 @@ public interface ExerciseResultRepository extends JpaRepository<ExerciseResult, 
     @Query("DELETE FROM ExerciseResult r WHERE r.exercise = :exercise")
     void deleteByExercise(@Param("exercise") Exercise exercise);
 
+
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM exercise_result WHERE exercise_id IN (SELECT id FROM exercise WHERE lesson_id IN (SELECT id FROM lesson WHERE course_id = :courseId))", nativeQuery = true)
+    void deleteByCourseId(@Param("courseId") Long courseId);
 }

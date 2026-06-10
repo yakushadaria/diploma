@@ -60,4 +60,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
  void detachTeacherFromCourses(@Param("userId") Long userId);
 
 
+
+
+
 }
